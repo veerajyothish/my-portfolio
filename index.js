@@ -483,4 +483,53 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
         }
     }
+
+    // --- 8. CONTACT FORM AJAX SUBMISSION ---
+    const contactForm = document.querySelector('.contact-form');
+    if (contactForm) {
+        contactForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const submitBtn = contactForm.querySelector('button[type="submit"]');
+            const originalBtnText = submitBtn.textContent;
+            
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending...';
+            
+            const formData = new FormData(contactForm);
+            
+            try {
+                const response = await fetch(contactForm.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    submitBtn.textContent = 'Message Sent! ✓';
+                    submitBtn.style.backgroundColor = 'var(--accent-teal)';
+                    contactForm.reset();
+                    setTimeout(() => {
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = originalBtnText;
+                        submitBtn.style.backgroundColor = '';
+                    }, 4000);
+                } else {
+                    const data = await response.json();
+                    if (data && data.errors) {
+                        alert(data.errors.map(error => error.message).join(", "));
+                    } else {
+                        alert("Oops! There was a problem submitting your form.");
+                    }
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = originalBtnText;
+                }
+            } catch (error) {
+                alert("Oops! There was a problem submitting your form.");
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalBtnText;
+            }
+        });
+    }
 });
