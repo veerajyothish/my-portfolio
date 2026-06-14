@@ -1,4 +1,4 @@
-// index.js
+// index.js — Portfolio interactions
 
 document.addEventListener('DOMContentLoaded', () => {
     // --- 1. WEB AUDIO API SYNTHESIZER ---
@@ -64,22 +64,88 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Mute/Unmute toggle
+    // --- 1.2 SOUND MODE CYCLING CONTROLLER ---
+    let soundMode = localStorage.getItem('portfolio-sound-mode') || 'click';
     const audioToggle = document.getElementById('audio-toggle');
-    audioToggle.addEventListener('click', () => {
-        isMuted = !isMuted;
-        audioToggle.textContent = isMuted ? '🔇' : '🔊';
-        if (!isMuted) {
-            initAudio();
-            playClickSound();
+
+    function updateAudioButtonUI() {
+        const icons = { 'click': '🔊', 'chiptune': '👾', 'mute': '🔇' };
+        const titles = { 'click': 'Sound Mode: Clicks', 'chiptune': 'Sound Mode: Chiptune', 'mute': 'Sound Mode: Muted' };
+        if (audioToggle) {
+            audioToggle.textContent = icons[soundMode];
+            audioToggle.title = titles[soundMode];
         }
-    });
+    }
+    updateAudioButtonUI();
+
+    if (audioToggle) {
+        audioToggle.addEventListener('click', () => {
+            if (soundMode === 'click') {
+                soundMode = 'chiptune';
+            } else if (soundMode === 'chiptune') {
+                soundMode = 'mute';
+            } else {
+                soundMode = 'click';
+            }
+            localStorage.setItem('portfolio-sound-mode', soundMode);
+            updateAudioButtonUI();
+            
+            if (soundMode !== 'mute') {
+                initAudio();
+                playFeedbackSound();
+            }
+        });
+    }
+
+    function playFeedbackSound() {
+        if (soundMode === 'click') {
+            playClickSound();
+        } else if (soundMode === 'chiptune') {
+            playChiptuneSound();
+        }
+    }
+
+    // Play retro 8-bit game pickup sound (two square waves)
+    function playChiptuneSound() {
+        if (soundMode === 'mute') return;
+        initAudio();
+        try {
+            const osc1 = audioCtx.createOscillator();
+            const osc2 = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+            
+            osc1.connect(gainNode);
+            osc2.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+            
+            osc1.type = 'square';
+            osc2.type = 'square';
+            
+            const now = audioCtx.currentTime;
+            
+            // Retro C5 -> G5 double chime
+            osc1.frequency.setValueAtTime(523.25, now);
+            osc2.frequency.setValueAtTime(783.99, now + 0.06);
+            
+            gainNode.gain.setValueAtTime(0.015, now);
+            gainNode.gain.setValueAtTime(0.015, now + 0.06);
+            gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.16);
+            
+            osc1.start(now);
+            osc1.stop(now + 0.06);
+            
+            osc2.start(now + 0.06);
+            osc2.stop(now + 0.16);
+        } catch (e) {
+            console.warn("Chiptune audio error:", e);
+        }
+    }
 
     // Add audio triggers to links and buttons
-    const clickables = document.querySelectorAll('a, button:not(#audio-toggle)');
+    const clickables = document.querySelectorAll('a, button:not(#audio-toggle):not(#theme-toggle)');
     clickables.forEach(elem => {
         elem.addEventListener('click', () => {
-            playClickSound();
+            playFeedbackSound();
         });
     });
 
@@ -92,8 +158,10 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Animate logo entrance
     setTimeout(() => {
-        loaderLogo.style.opacity = '1';
-        loaderLogo.style.transform = 'translateY(0)';
+        if (loaderLogo) {
+            loaderLogo.style.opacity = '1';
+            loaderLogo.style.transform = 'translateY(0)';
+        }
     }, 200);
 
     let progress = 0;
@@ -105,15 +173,15 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // Trigger exit transition
             setTimeout(() => {
-                loader.classList.add('loaded');
+                if (loader) loader.classList.add('loaded');
                 playLoadSound();
                 setTimeout(() => {
-                    loader.style.display = 'none';
+                    if (loader) loader.style.display = 'none';
                 }, 800);
             }, 300);
         }
-        loaderBar.style.width = `${progress}%`;
-        loaderPercent.textContent = `${progress}%`;
+        if (loaderBar) loaderBar.style.width = `${progress}%`;
+        if (loaderPercent) loaderPercent.textContent = `${progress}%`;
     }, 80);
 
 
@@ -121,8 +189,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const cards = document.querySelectorAll('.card');
 
     cards.forEach(card => {
-        // Add random initial tilt rotation on cards for subtle tactile variation
+        // Set CSS custom property to store initial rotation for reference in keyframe animation
         const baseRotation = (Math.random() * 2) - 1; // -1 to 1 deg
+        card.style.setProperty('--initial-rot', `${baseRotation}deg`);
         card.style.transform = `rotate(${baseRotation}deg)`;
 
         card.addEventListener('mousemove', (e) => {
@@ -133,7 +202,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const centerX = rect.width / 2;
             const centerY = rect.height / 2;
             
-            // Subtle 3D rotation based on mouse coordinates relative to card center
             const rotateX = ((y - centerY) / centerY) * -5; // max 5 deg
             const rotateY = ((x - centerX) / centerX) * 5;  // max 5 deg
 
@@ -148,222 +216,271 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
-    // --- 4. INTERACTIVE SVG SKILLS NODE GRAPH ---
-    const svg = document.getElementById('skills-svg');
-    const graphContainer = document.getElementById('graph-container');
-    
-    // Skills Node Data
-    const nodes = [
-        { id: 'Java', group: 1, x: 70, y: 60, vx: 0, vy: 0, r: 24, label: 'Java' },
-        { id: 'Python', group: 1, x: 260, y: 70, vx: 0, vy: 0, r: 28, label: 'Python' },
-        { id: 'Agentic AI', group: 2, x: 170, y: 120, vx: 0, vy: 0, r: 35, label: 'Agentic AI' },
-        { id: 'Dijkstra', group: 3, x: 60, y: 180, vx: 0, vy: 0, r: 26, label: 'Dijkstra' },
-        { id: 'MCP', group: 2, x: 280, y: 180, vx: 0, vy: 0, r: 24, label: 'MCP' },
-        { id: 'Firebase', group: 4, x: 190, y: 200, vx: 0, vy: 0, r: 26, label: 'Firebase' }
-    ];
+    // --- 4. INTERSECTION OBSERVER — Scroll Fade-In Animations ---
+    const fadeElements = document.querySelectorAll('.fade-in');
 
-    const links = [
-        { source: 'Java', target: 'Dijkstra' },
-        { source: 'Python', target: 'Agentic AI' },
-        { source: 'Agentic AI', target: 'MCP' },
-        { source: 'Agentic AI', target: 'Firebase' },
-        { source: 'Java', target: 'Firebase' },
-        { source: 'Dijkstra', target: 'Agentic AI' }
-    ];
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px 0px -60px 0px',
+        threshold: 0.1
+    };
 
-    // Build SVG Groups
-    const linkGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-    const nodeGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-    svg.appendChild(linkGroup);
-    svg.appendChild(nodeGroup);
-
-    // Create Link Lines
-    const linkElements = links.map(link => {
-        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-        line.setAttribute('stroke', '#e7e5e4');
-        line.setAttribute('stroke-width', '1.5');
-        linkGroup.appendChild(line);
-        return { line, source: link.source, target: link.target };
-    });
-
-    // Create Node Circles & Labels
-    let draggedNode = null;
-    let mousePos = { x: 0, y: 0, active: false };
-
-    const nodeElements = nodes.map(node => {
-        const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-        g.setAttribute('class', 'group select-none cursor-pointer');
-
-        const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-        circle.setAttribute('r', node.r);
-        
-        // Color presets matching the warm stone/stationery theme
-        const colors = ['#f5f5f4', '#fef08a', '#fed7aa', '#e2e8f0'];
-        circle.setAttribute('fill', colors[node.group - 1]);
-        circle.setAttribute('stroke', '#1c1917');
-        circle.setAttribute('stroke-width', '1.5');
-        circle.setAttribute('class', 'transition-all duration-300 group-hover:scale-110 group-hover:stroke-orange-500');
-
-        const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-        text.textContent = node.label;
-        text.setAttribute('text-anchor', 'middle');
-        text.setAttribute('dy', '4');
-        text.setAttribute('font-size', '10px');
-        text.setAttribute('font-weight', '500');
-        text.setAttribute('fill', '#1c1917');
-        text.setAttribute('pointer-events', 'none');
-
-        g.appendChild(circle);
-        g.appendChild(text);
-        nodeGroup.appendChild(g);
-
-        // Click drag events
-        g.addEventListener('mousedown', (e) => {
-            playClickSound();
-            draggedNode = node;
-        });
-
-        g.addEventListener('touchstart', (e) => {
-            playClickSound();
-            draggedNode = node;
-        }, { passive: true });
-
-        return { g, node, circle, text };
-    });
-
-    // Tracking Cursor Position inside the Canvas
-    graphContainer.addEventListener('mousemove', (e) => {
-        const rect = svg.getBoundingClientRect();
-        mousePos.x = e.clientX - rect.left;
-        mousePos.y = e.clientY - rect.top;
-        mousePos.active = true;
-    });
-
-    graphContainer.addEventListener('mouseleave', () => {
-        mousePos.active = false;
-        draggedNode = null;
-    });
-
-    document.addEventListener('mouseup', () => {
-        draggedNode = null;
-    });
-
-    document.addEventListener('touchend', () => {
-        draggedNode = null;
-    });
-
-    // Node Physics Simulation Loop
-    function updatePhysics() {
-        const width = svg.clientWidth || 300;
-        const height = svg.clientHeight || 256;
-        const targetX = width / 2;
-        const targetY = height / 2;
-
-        const gravity = 0.035;
-        const linkForce = 0.06;
-        const charge = 75; // Repulsion distance/strength
-
-        if (draggedNode && mousePos.active) {
-            draggedNode.x = mousePos.x;
-            draggedNode.y = mousePos.y;
-            draggedNode.vx = 0;
-            draggedNode.vy = 0;
-        }
-
-        // Apply physics forces
-        for (let i = 0; i < nodes.length; i++) {
-            const node = nodes[i];
-            if (node === draggedNode) continue;
-
-            // 1. Center gravity pull
-            node.vx += (targetX - node.x) * gravity;
-            node.vy += (targetY - node.y) * gravity;
-
-            // 2. Node separation
-            for (let j = 0; j < nodes.length; j++) {
-                if (i === j) continue;
-                const other = nodes[j];
-                const dx = node.x - other.x;
-                const dy = node.y - other.y;
-                const dist = Math.sqrt(dx * dx + dy * dy) || 1;
-                
-                if (dist < 110) {
-                    const force = charge / (dist * dist);
-                    node.vx += (dx / dist) * force;
-                    node.vy += (dy / dist) * force;
-                }
-            }
-
-            // 3. Cursor attraction
-            if (mousePos.active) {
-                const dx = mousePos.x - node.x;
-                const dy = mousePos.y - node.y;
-                const dist = Math.sqrt(dx * dx + dy * dy) || 1;
-                if (dist < 100) {
-                    const pull = (100 - dist) * 0.022;
-                    node.vx += (dx / dist) * pull;
-                    node.vy += (dy / dist) * pull;
-                }
-            }
-
-            // Apply inertia/friction and update coordinates
-            node.vx *= 0.84;
-            node.vy *= 0.84;
-            node.x += node.vx;
-            node.y += node.vy;
-
-            // Keep inside margins
-            if (node.x < node.r) { node.x = node.r; node.vx *= -0.5; }
-            if (node.x > width - node.r) { node.x = width - node.r; node.vx *= -0.5; }
-            if (node.y < node.r) { node.y = node.r; node.vy *= -0.5; }
-            if (node.y > height - node.r) { node.y = height - node.r; node.vy *= -0.5; }
-        }
-
-        // 4. Spring linkages
-        linkElements.forEach(le => {
-            const src = nodes.find(n => n.id === le.source);
-            const tgt = nodes.find(n => n.id === le.target);
-            if (!src || !tgt) return;
-
-            const dx = tgt.x - src.x;
-            const dy = tgt.y - src.y;
-            const dist = Math.sqrt(dx * dx + dy * dy) || 1;
-            const desiredDist = 80;
-
-            const force = (dist - desiredDist) * linkForce;
-            
-            const fx = (dx / dist) * force;
-            const fy = (dy / dist) * force;
-
-            if (src !== draggedNode) {
-                src.vx += fx;
-                src.vy += fy;
-            }
-            if (tgt !== draggedNode) {
-                tgt.vx -= fx;
-                tgt.vy -= fy;
+    const fadeObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                fadeObserver.unobserve(entry.target);
             }
         });
+    }, observerOptions);
 
-        // Reposition SVG graphics
-        nodeElements.forEach(ne => {
-            ne.g.setAttribute('transform', `translate(${ne.node.x}, ${ne.node.y})`);
+    fadeElements.forEach(el => {
+        fadeObserver.observe(el);
+    });
+
+
+    // --- 5. ACTIVE NAV LINK HIGHLIGHTING ---
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    function updateActiveNav() {
+        const scrollPos = window.scrollY + 120;
+
+        sections.forEach(section => {
+            const top = section.offsetTop;
+            const height = section.offsetHeight;
+            const id = section.getAttribute('id');
+
+            if (scrollPos >= top && scrollPos < top + height) {
+                navLinks.forEach(link => {
+                    link.classList.remove('font-bold');
+                    link.style.color = '';
+                    if (link.getAttribute('href') === `#${id}`) {
+                        link.style.color = 'var(--accent-teal)';
+                        link.classList.add('font-bold');
+                    }
+                });
+            }
         });
-
-        linkElements.forEach(le => {
-            const src = nodes.find(n => n.id === le.source);
-            const tgt = nodes.find(n => n.id === le.target);
-            if (!src || !tgt) return;
-
-            le.line.setAttribute('x1', src.x);
-            le.line.setAttribute('y1', src.y);
-            le.line.setAttribute('x2', tgt.x);
-            le.line.setAttribute('y2', tgt.y);
-        });
-
-        requestAnimationFrame(updatePhysics);
     }
 
-    // Launch loop
-    updatePhysics();
+    window.addEventListener('scroll', updateActiveNav, { passive: true });
+    updateActiveNav();
+
+
+    // --- 6. DARK MODE THEME CONTROLLER ---
+    const themeToggle = document.getElementById('theme-toggle');
+    
+    function applyTheme(theme) {
+        if (theme === 'dark') {
+            document.documentElement.classList.add('dark');
+            if (themeToggle) {
+                themeToggle.textContent = '☀️';
+                themeToggle.title = 'Switch to Light Mode';
+            }
+        } else {
+            document.documentElement.classList.remove('dark');
+            if (themeToggle) {
+                themeToggle.textContent = '🌙';
+                themeToggle.title = 'Switch to Dark Mode';
+            }
+        }
+    }
+
+    const savedTheme = localStorage.getItem('portfolio-theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    let currentTheme = savedTheme || (prefersDark ? 'dark' : 'light');
+    applyTheme(currentTheme);
+
+    if (themeToggle) {
+        themeToggle.addEventListener('click', () => {
+            currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+            localStorage.setItem('portfolio-theme', currentTheme);
+            applyTheme(currentTheme);
+            playFeedbackSound();
+        });
+    }
+
+
+    // --- 7. INTERACTIVE RETRO TERMINAL WIDGET ---
+    const terminalInput = document.getElementById('terminal-input');
+    const terminalOutput = document.getElementById('terminal-output');
+    
+    if (terminalInput && terminalOutput) {
+        const commandHistory = [];
+        let historyIndex = -1;
+
+        // Focus input when the terminal body is clicked
+        terminalInput.closest('.card').addEventListener('click', () => {
+            terminalInput.focus();
+        });
+
+        terminalInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                const commandText = terminalInput.value.trim();
+                terminalInput.value = '';
+                
+                if (commandText) {
+                    commandHistory.push(commandText);
+                    historyIndex = commandHistory.length;
+                    
+                    // Print command prompt line
+                    const promptLine = document.createElement('div');
+                    promptLine.innerHTML = `<span class="text-teal-400">bvj@portfolio:~$</span> <span class="text-[#ffb68d]">${escapeHtml(commandText)}</span>`;
+                    terminalOutput.appendChild(promptLine);
+                    
+                    executeCommand(commandText.toLowerCase());
+                    terminalOutput.scrollTop = terminalOutput.scrollHeight;
+                }
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                if (historyIndex > 0) {
+                    historyIndex--;
+                    terminalInput.value = commandHistory[historyIndex];
+                }
+            } else if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                if (historyIndex < commandHistory.length - 1) {
+                    historyIndex++;
+                    terminalInput.value = commandHistory[historyIndex];
+                } else {
+                    historyIndex = commandHistory.length;
+                    terminalInput.value = '';
+                }
+            }
+        });
+
+        function escapeHtml(text) {
+            return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        }
+
+        function executeCommand(cmd) {
+            const out = document.createElement('div');
+            out.className = 'mt-1 mb-2 text-stone-300';
+            
+            const parts = cmd.split(' ');
+            const baseCmd = parts[0];
+            const args = parts.slice(1);
+
+            switch (baseCmd) {
+                case 'help':
+                    out.innerHTML = `
+                        <div class="text-[#ffb68d] font-bold mb-1">Available Commands:</div>
+                        <div class="grid grid-cols-[100px_1fr] gap-x-4 gap-y-1 text-stone-400 font-mono text-xs">
+                            <span class="text-teal-300">help</span><span>Display list of commands</span>
+                            <span class="text-teal-300">about</span><span>About Bondada Veera Jyothish</span>
+                            <span class="text-teal-300">skills</span><span>Show technical skills</span>
+                            <span class="text-teal-300">projects</span><span>List highlight projects</span>
+                            <span class="text-teal-300">resume</span><span>Print education & certifications (cat resume.txt)</span>
+                            <span class="text-teal-300">sound [mode]</span><span>Set sound (click, chiptune, mute) or query status</span>
+                            <span class="text-teal-300">theme [mode]</span><span>Set theme (light, dark) or query status</span>
+                            <span class="text-teal-300">antigravity</span><span>Toggle zero-gravity on site cards</span>
+                            <span class="text-teal-300">clear</span><span>Clear the terminal screen</span>
+                        </div>
+                    `;
+                    break;
+                case 'about':
+                    out.innerHTML = `
+                        <div class="text-teal-300 font-bold mb-1">About Me:</div>
+                        <div>I am a Java & Python developer specializing in Agentic AI orchestration, graph algorithms, and full-stack software development. Currently a 2nd year B.Tech CSE student at GITAM University with a CGPA of 7.5. Passionate about engineering high-integrity, zero-vulnerability software systems that solve real-world problems.</div>
+                    `;
+                    break;
+                case 'skills':
+                    out.innerHTML = `
+                        <div class="text-teal-300 font-bold mb-1">Technical Skill Stack:</div>
+                        <div class="space-y-1 text-stone-400">
+                            <div>Languages: Java [████████░░] 80% | Python [█████████░] 90% | JS/HTML/CSS [████████░░] 80%</div>
+                            <div>Tools/Frameworks: Flask, SQLite, Devicon, Antigravity SDK, Vercel, Netlify</div>
+                            <div>Concepts: Data Structures, Graph Pathfinding, AI Agents, Secure Auth</div>
+                        </div>
+                    `;
+                    break;
+                case 'projects':
+                    out.innerHTML = `
+                        <div class="text-teal-300 font-bold mb-1">Highlight Projects:</div>
+                        <div class="space-y-2 text-stone-400">
+                            <div>1. <span class="text-[#ffb68d] font-bold">Dijkstra Campus Navigator</span> - Web application finding optimal paths across 42 campus nodes. Built from scratch with JS/HTML5 Canvas and pure CSS.</div>
+                            <div>2. <span class="text-[#ffb68d] font-bold">EduTracker (Hackathon)</span> - College management platform powered by Gemini AI. Orchestrates agents with Firebase database sync.</div>
+                            <div>3. <span class="text-[#ffb68d] font-bold">OIBSIP Secure Auth</span> - Flask user authentication implementation with bcrypt hashing and session validation.</div>
+                        </div>
+                    `;
+                    break;
+                case 'cat':
+                    if (args[0] === 'resume.txt' || args[0] === 'resume') {
+                        printResume(out);
+                    } else {
+                        out.innerHTML = `<div>cat: ${args[0] ? escapeHtml(args[0]) : 'missing file name'}: No such file or directory. Try: <span class="text-teal-300 font-bold">cat resume.txt</span></div>`;
+                    }
+                    break;
+                case 'resume':
+                    printResume(out);
+                    break;
+                case 'sound':
+                    if (args[0]) {
+                        if (['click', 'chiptune', 'mute'].includes(args[0])) {
+                            soundMode = args[0];
+                            localStorage.setItem('portfolio-sound-mode', soundMode);
+                            updateAudioButtonUI();
+                            playFeedbackSound();
+                            out.innerHTML = `<div>Sound mode set to <span class="text-teal-300 font-bold">${soundMode}</span>.</div>`;
+                        } else {
+                            out.innerHTML = `<div class="text-red-400">Invalid sound mode. Choose from: click, chiptune, mute.</div>`;
+                        }
+                    } else {
+                        out.innerHTML = `<div>Current sound mode: <span class="text-teal-300 font-bold">${soundMode}</span>. Try: <span class="text-[#ffb68d]">sound chiptune</span></div>`;
+                    }
+                    break;
+                case 'theme':
+                    if (args[0]) {
+                        if (['light', 'dark'].includes(args[0])) {
+                            currentTheme = args[0];
+                            localStorage.setItem('portfolio-theme', currentTheme);
+                            applyTheme(currentTheme);
+                            playFeedbackSound();
+                            out.innerHTML = `<div>Theme set to <span class="text-teal-300 font-bold">${currentTheme}</span>.</div>`;
+                        } else {
+                            out.innerHTML = `<div class="text-red-400">Invalid theme. Choose from: light, dark.</div>`;
+                        }
+                    } else {
+                        out.innerHTML = `<div>Current theme: <span class="text-teal-300 font-bold">${currentTheme}</span>. Try: <span class="text-[#ffb68d]">theme dark</span></div>`;
+                    }
+                    break;
+                case 'antigravity':
+                    const isFlipped = document.body.classList.toggle('antigravity-active');
+                    playFeedbackSound();
+                    if (isFlipped) {
+                        out.innerHTML = `<div class="text-green-400 font-bold">WARNING: ZERO GRAVITY ENFORCED! Page components are floating.</div>`;
+                    } else {
+                        out.innerHTML = `<div class="text-teal-300">Gravity fields restored. Cards stabilized.</div>`;
+                    }
+                    break;
+                case 'sudo':
+                    out.innerHTML = `<div class="text-red-400 font-bold">Permission Denied: User is not in the sudoers file. This incident has been logged.</div>`;
+                    break;
+                case 'clear':
+                    terminalOutput.innerHTML = '';
+                    return;
+                default:
+                    out.innerHTML = `<div class="text-red-400">Command not found: '${escapeHtml(baseCmd)}'. Type <span class="text-teal-300 font-bold">help</span> to list commands.</div>`;
+                    break;
+            }
+            terminalOutput.appendChild(out);
+        }
+
+        function printResume(outElement) {
+            outElement.innerHTML = `
+                <div class="text-teal-300 font-bold mb-1">RESUME DATA (resume.txt):</div>
+                <div class="space-y-2 text-stone-400">
+                    <div><strong class="text-stone-200">Education:</strong></div>
+                    <div>• B.Tech in CSE | GITAM University, Visakhapatnam (Aug 2024 - Apr 2028) - CGPA: 7.5</div>
+                    <div>• Class XII / Junior College | Sri Chaitanya Junior College (Jun 2022 - Apr 2024) - Grade: A</div>
+                    
+                    <div><strong class="text-stone-200">Certifications:</strong></div>
+                    <div>• Google Cloud AI Agents Credentials (Jun 2026)</div>
+                    <div>• Data Visualisation: Empowering Business | Tata Group (Aug 2024)</div>
+                    <div>• Programming for Everybody (Python) | UMich / Coursera</div>
+                </div>
+            `;
+        }
+    }
 });

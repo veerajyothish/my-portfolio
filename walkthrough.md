@@ -1,14 +1,14 @@
 # Walkthrough: Structured & Accessible Portfolio Website
 
-We have rebuilt the portfolio website codebase inside **[agyport/PORTFOLIO/](file:///C:/Users/Jyoth/.gemini/antigravity/scratch/agyport/PORTFOLIO/)** to feature a clean, accessible vertical-grid structure while removing the draggable cards, Zero Bullshit Mode, and the click-flip interactions.
+We have rebuilt the portfolio website codebase inside **[my-portfolio/](file:///C:/Users/Jyoth/.gemini/antigravity/scratch/my-portfolio/)** to feature a clean, accessible vertical-grid structure while removing the draggable cards, Zero Bullshit Mode, and the click-flip interactions.
 
 ---
 
 ## 📂 Updated Codebase Files
 
-*   **[index.html](file:///C:/Users/Jyoth/.gemini/antigravity/scratch/agyport/PORTFOLIO/index.html)**: Reorganized into clear semantic sections (Header ➔ Hero ➔ About & Education ➔ Interactive Skills Graph ➔ Projects Grid ➔ Contact/Footer).
-*   **[index.css](file:///C:/Users/Jyoth/.gemini/antigravity/scratch/agyport/PORTFOLIO/index.css)**: Simplified card styling using CSS standard grids/flexbox, retaining the tactile stationery shadow effects, masking tape styling, and loader panel transforms.
-*   **[index.js](file:///C:/Users/Jyoth/.gemini/antigravity/scratch/agyport/PORTFOLIO/index.js)**: Runs the split loader, triggers Web Audio click synthesizers on interactive elements, applies 3D card tilt transformations on hover, and simulates spring physics inside the SVG node graph.
+*   **[index.html](file:///C:/Users/Jyoth/.gemini/antigravity/scratch/my-portfolio/index.html)**: Reorganized into clear semantic sections (Header ➔ Hero ➔ About & Education ➔ Interactive Skills Graph ➔ Projects Grid ➔ Contact/Footer).
+*   **[index.css](file:///C:/Users/Jyoth/.gemini/antigravity/scratch/my-portfolio/index.css)**: Simplified card styling using CSS standard grids/flexbox, retaining the tactile stationery shadow effects, masking tape styling, and loader panel transforms.
+*   **[index.js](file:///C:/Users/Jyoth/.gemini/antigravity/scratch/my-portfolio/index.js)**: Runs the split loader, triggers Web Audio click synthesizers on interactive elements, applies 3D card tilt transformations on hover, and simulates spring physics inside the SVG node graph.
 
 ---
 
@@ -28,4 +28,4 @@ The local Python server is serving files from the workspace directory:
 > Visit **`http://localhost:8080`** in your browser to preview the updated site!
 
 To inspect the code in your IDE, simply open the folder:  
-📂 **[PORTFOLIO](file:///C:/Users/Jyoth/.gemini/antigravity/scratch/agyport/PORTFOLIO/)**
+📂 **[my-portfolio](file:///C:/Users/Jyoth/.gemini/antigravity/scratch/my-portfolio/)**

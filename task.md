@@ -1,7 +1,13 @@
-# Task List: Portfolio Website Creation (No-Flip Layout)
+# checklist for Portfolio Upgrades
 
-- [x] Rebuild layout structure in `index.html` inside `agyport/PORTFOLIO/` (direct grid layout, no flipping, no Zero Bullshit mode)
-- [x] Rebuild styles in `index.css` (clean grid alignment, tactile paper cards with drop-shadows and tape, split loader)
-- [x] Rebuild interactive JS in `index.js` (split loader progress, 3D card tilt hover, interactive SVG node graph physics, Web Audio click sounds)
-- [x] Verify local execution by starting a python server and testing the site
-- [x] Update `walkthrough.md` summarizing the changes
+- [x] Define CSS theme variables for Light and Dark Blueprint Modes in `index.css`
+- [x] Implement `@keyframes` and classes for the "zero-gravity" float Easter egg in `index.css`
+- [x] Update `index.html` structure:
+    - Add Dark Mode and Sound Customizer controls to the bottom-right actions tray
+    - Update nav bar class list for light orange translucency
+    - Embed the Retro CLI Terminal Widget card above the contact section
+- [x] Update `index.js` logic:
+    - Add Theme Toggle logic and class-based toggle for Tailwind
+    - Add three-state Sound Customizer arpeggio sweep logic
+    - Add CLI input parser and command handler (including `antigravity` float trigger)
+- [x] Verify execution in browser and document results

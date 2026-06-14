@@ -3,17 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bondada Veera Jyothish | Portfolio</title>
+    <title>Bondada Veera Jyothish | Software Developer & AI Engineer</title>
+    <meta name="description" content="Java & Python developer specializing in Agentic AI orchestration, graph algorithms, and LLM application development. B.Tech CSE student at GITAM University.">
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Playfair+Display:ital,wght@0,500;0,700;1,400&family=Permanent+Marker&display=swap" rel="stylesheet">
     
+    <!-- Devicon CDN for skill icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/devicon.min.css">
+    
     <!-- Tailwind CSS (CDN) -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     fontFamily: {
@@ -47,17 +52,17 @@
     </div>
 
     <!-- Navigation -->
-    <nav class="fixed top-0 left-0 w-full z-40 border-b border-stone-200/50 bg-[#fafaf9]/75 backdrop-blur-md py-4 px-6 md:px-12 flex justify-between items-center" id="main-nav">
-        <a href="#hero" class="text-lg font-serif italic font-bold tracking-tight select-none">
-            Bondada V.J.
+    <nav class="fixed top-0 left-0 w-full z-40 border-b border-[#e6a07a]/25 bg-[#ffb68d]/25 backdrop-blur-md py-4 px-6 md:px-12 flex justify-between items-center transition-all duration-500" id="main-nav" style="background-color: var(--nav-bg); border-color: var(--nav-border);">
+        <a href="#hero" class="text-xl font-mono font-bold tracking-tight select-none uppercase transition-colors duration-500" style="color: var(--nav-text);">
+            B.V.J
         </a>
         
         <div class="flex items-center gap-6">
-            <div class="flex gap-4 md:gap-8 text-xs uppercase tracking-widest font-medium text-stone-500">
-                <a href="#about" class="nav-link hover:text-stone-900 transition-colors">About</a>
-                <a href="#skills" class="nav-link hover:text-stone-900 transition-colors">Skills</a>
-                <a href="#projects" class="nav-link hover:text-stone-900 transition-colors">Projects</a>
-                <a href="#contact" class="nav-link hover:text-stone-900 transition-colors">Contact</a>
+            <div class="nav-links flex gap-4 md:gap-8 text-xs uppercase tracking-widest font-mono font-bold transition-colors duration-500" style="color: var(--nav-text);">
+                <a href="#about" class="nav-link hover:text-[#01696f] transition-colors">About</a>
+                <a href="#skills" class="nav-link hover:text-[#01696f] transition-colors">Skills</a>
+                <a href="#projects" class="nav-link hover:text-[#01696f] transition-colors">Projects</a>
+                <a href="#contact" class="nav-link hover:text-[#01696f] transition-colors">Contact</a>
             </div>
         </div>
     </nav>
@@ -66,23 +71,23 @@
     <main class="relative z-10 w-full max-w-6xl mx-auto pt-32 pb-24 px-6" id="workspace">
         
         <!-- Hero Section -->
-        <section id="hero" class="mb-16 md:mb-24 text-center md:text-left">
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-stone-200 bg-white/80 shadow-sm text-[10px] uppercase font-mono tracking-wider text-stone-500 mb-6">
-                <span class="relative flex h-2 w-2">
-                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                    <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+        <section id="hero" class="mb-16 md:mb-24 text-left fade-in">
+            <div class="status-badge inline-flex items-center gap-2 px-3 py-1 rounded-full border border-red-200 bg-red-50/80 shadow-sm text-[10px] uppercase font-mono tracking-wider text-stone-500 mb-6">
+                <span class="relative flex h-2.5 w-2.5">
+                    <span class="ping-ring animate-ping absolute inline-flex h-full w-full rounded-full bg-red-600 opacity-75"></span>
+                    <span class="ping-dot relative inline-flex rounded-full h-2.5 w-2.5 bg-red-600"></span>
                 </span>
                 <span>Available for Internships</span>
             </div>
             
-            <h1 class="text-4xl md:text-6xl lg:text-7xl font-serif font-bold leading-[1.1] tracking-tight mb-6 text-stone-900">
-                Defuse systems.<br>
-                Reframe problems.<br>
-                <span class="text-stone-400 italic">Code with intent.</span>
+            <h1 class="hero-heading text-3xl md:text-5xl lg:text-6xl font-serif font-bold leading-[1.05] tracking-tight mb-6 text-stone-900">
+                I build systems that<br>
+                actually solve problems.<br>
+                <span class="text-[#01696f] font-hand text-[1.15em]">Not just ship features.</span>
             </h1>
             
             <p class="text-base md:text-lg text-stone-500 font-light leading-relaxed max-w-2xl">
-                I build agentic workflows that solve complex integration problems, and engineer spatial algorithms from scratch. A B.Tech CSE student currently shipping code.
+                I build agentic workflows that solve complex integration problems, and engineer spatial algorithms from scratch. A B.Tech CSE student currently shipping code that bridges graph theory with real campus infrastructure, and orchestrates AI agents into production-ready platforms.
             </p>
         </section>
 
@@ -93,57 +98,70 @@
             <section id="about" class="lg:col-span-7 space-y-8">
                 
                 <!-- About Card -->
-                <div class="card bg-white border border-stone-200 shadow-sm p-6 rounded-sm relative">
+                <div class="card bg-white border border-stone-200 shadow-sm p-6 rounded-sm relative fade-in">
                     <div class="card-tape"></div>
                     <div class="flex justify-between items-center mb-4">
-                        <span class="text-[10px] font-mono text-stone-400 uppercase tracking-widest">Index / 01</span>
-                        <span class="text-xs font-hand text-stone-500 italic rotate-3">Bio</span>
+                        <span class="text-[11px] font-mono font-semibold text-stone-400 uppercase tracking-widest">Index / 01</span>
+                        <span class="text-sm font-hand font-semibold text-stone-500 italic rotate-3">Bio</span>
                     </div>
-                    <h2 class="text-2xl font-serif font-bold text-stone-900 mb-3">Who I Am</h2>
+                    <h2 class="section-heading text-3xl font-serif font-extrabold text-stone-900 mb-3 leading-[1.1]">Who I Am</h2>
                     <p class="text-sm text-stone-600 leading-relaxed font-light mb-4">
-                        I am a Java & Python developer specializing in Agentic AI orchestration, prompt engineering, and LLM application development using the Gemini API. Certified in Google Cloud AI Agents.
+                        Java & Python developer with production-deployed projects in graph algorithms and agentic AI. I specialise in Agentic AI orchestration, prompt engineering, and LLM application development using the Gemini API.
+                    </p>
+                    <p class="text-sm text-stone-600 leading-relaxed font-light mb-4">
+                        Built a Dijkstra-based campus navigator (42 nodes, 76 edges, live on Vercel) and co-led backend integration for a Gemini-powered college management platform shipped at a national hackathon. Certified in Google Cloud AI Agents.
                     </p>
                     <p class="text-sm text-stone-600 leading-relaxed font-light">
-                        I focus on bridging the gap between complex data structures and intuitive, production-ready workflows.
+                        Currently interning as a Web Development & Designing Intern at <strong class="font-medium">Oasis InfoByte (OIBSIP)</strong>, building full-stack authentication systems with zero-vulnerability auth.
                     </p>
                 </div>
 
                 <!-- Education & Certifications Card -->
-                <div class="card bg-white border border-stone-200 shadow-sm p-6 rounded-sm relative">
+                <div class="card bg-white border border-stone-200 shadow-sm p-6 rounded-sm relative fade-in">
                     <div class="card-tape"></div>
                     <div class="flex justify-between items-center mb-4">
-                        <span class="text-[10px] font-mono text-stone-400 uppercase tracking-widest">Metadata / 02</span>
-                        <span class="text-xs font-hand text-stone-500 italic rotate-[-2deg]">Timeline</span>
+                        <span class="text-[11px] font-mono font-semibold text-stone-400 uppercase tracking-widest">Metadata / 02</span>
+                        <span class="text-sm font-hand font-semibold text-stone-500 italic rotate-[-2deg]">Timeline</span>
                     </div>
-                    <h2 class="text-2xl font-serif font-bold text-stone-900 mb-6">Education & Credentials</h2>
+                    <h2 class="section-heading text-3xl font-serif font-bold text-stone-900 mb-6 leading-[1.1]">Education & Credentials</h2>
                     
                     <div class="space-y-6">
-                        <!-- Education -->
-                        <div class="border-l border-stone-200 pl-4 relative ml-1.5">
-                            <div class="absolute w-2 h-2 rounded-full bg-stone-400 -left-[4.5px] top-1.5"></div>
-                            <h3 class="text-sm font-semibold text-stone-900">B.Tech in Computer Science & Engineering</h3>
-                            <p class="text-xs text-stone-500">GITAM University, Visakhapatnam | 2024 – 2028 (Expected)</p>
-                            <p class="text-xs text-stone-400 mt-1">2nd Year | CGPA: 7.5 | Coursework: DSA, OOP, DBMS, OS, Networks</p>
-                        </div>
-                        
-                        <!-- Certifications -->
-                        <div class="border-l border-stone-200 pl-4 relative ml-1.5">
-                            <div class="absolute w-2 h-2 rounded-full bg-stone-400 -left-[4.5px] top-1.5"></div>
-                            <h3 class="text-sm font-semibold text-stone-900">Google Cloud / Google Skills Certifications</h3>
-                            <ul class="text-xs text-stone-500 list-disc list-inside mt-1 space-y-0.5">
-                                <li>Create Your First Gemini Enterprise Application (Jun 2026)</li>
-                                <li>Enterprise Agents and Use Cases (Jun 2026)</li>
-                                <li>Agent Fundamentals (Jun 2026)</li>
-                                <li>Introduction to AI Agents (Jun 2026)</li>
-                            </ul>
+                        <!-- Internship -->
+                        <div class="border-l-2 border-[#01696f] pl-4 relative ml-1.5">
+                            <div class="timeline-dot absolute w-2.5 h-2.5 rounded-full bg-[#01696f] -left-[6px] top-1.5"></div>
+                            <h3 class="text-sm font-semibold text-stone-900">Web Development & Designing Intern</h3>
+                            <p class="text-xs text-stone-500">Oasis InfoByte (OIBSIP) | May 2026 – Jun 2026 | Remote</p>
+                            <p class="text-xs text-stone-400 mt-1">Full-stack Flask auth · bcrypt hashing · Vercel deployment</p>
                         </div>
 
+                        <!-- Education -->
+                        <div class="border-l-2 border-[#01696f]/40 pl-4 relative ml-1.5">
+                            <div class="timeline-dot absolute w-2.5 h-2.5 rounded-full bg-[#01696f] -left-[6px] top-1.5"></div>
+                            <h3 class="text-sm font-semibold text-stone-900">B.Tech in Computer Science & Engineering</h3>
+                            <p class="text-xs text-stone-500">GITAM University, Visakhapatnam | Aug 2024 – Apr 2028</p>
+                            <p class="text-xs text-stone-400 mt-1">2nd Year | CGPA: 7.5 | DSA, OOP, DBMS, OS, Computer Networks</p>
+                        </div>
+                        
                         <!-- Secondary Education -->
-                        <div class="border-l border-stone-200 pl-4 relative ml-1.5">
-                            <div class="absolute w-2 h-2 rounded-full bg-stone-400 -left-[4.5px] top-1.5"></div>
+                        <div class="border-l-2 border-[#01696f]/30 pl-4 relative ml-1.5">
+                            <div class="timeline-dot absolute w-2.5 h-2.5 rounded-full bg-[#01696f]/60 -left-[6px] top-1.5"></div>
                             <h3 class="text-sm font-semibold text-stone-900">Class XII / Junior College</h3>
                             <p class="text-xs text-stone-500">Sri Chaitanya Junior College, Srikakulam | Jun 2022 – Apr 2024</p>
                             <p class="text-xs text-stone-400 mt-1">Grade: A</p>
+                        </div>
+
+                        <!-- Certifications -->
+                        <div class="border-l-2 border-[#01696f]/15 pl-4 relative ml-1.5">
+                            <div class="timeline-dot absolute w-2.5 h-2.5 rounded-full bg-[#01696f]/30 -left-[6px] top-1.5"></div>
+                            <h3 class="text-sm font-semibold text-stone-900">Certifications</h3>
+                            <ul class="text-xs text-stone-500 list-none mt-1 space-y-1">
+                                <li>→ Create Your First Gemini Enterprise Application — <span class="text-[#01696f]">Google Cloud</span> (Jun 2026)</li>
+                                <li>→ Enterprise Agents and Use Cases — <span class="text-[#01696f]">Google Cloud</span> (Jun 2026)</li>
+                                <li>→ Agent Fundamentals — <span class="text-[#01696f]">Google Cloud</span> (Jun 2026)</li>
+                                <li>→ Introduction to AI Agents — <span class="text-[#01696f]">Google Cloud</span> (Jun 2026)</li>
+                                <li>→ Data Visualisation: Empowering Business — <span class="text-stone-400">Tata Group / Forage</span> (Aug 2024)</li>
+                                <li>→ Programming for Everybody: Python — <span class="text-stone-400">UMich / Coursera</span></li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -152,43 +170,136 @@
 
             <!-- Right Column: Skills (5 cols) -->
             <section id="skills" class="lg:col-span-5">
-                <div class="card bg-white border border-stone-200 shadow-sm p-6 rounded-sm relative h-full flex flex-col justify-between">
+                <div class="card bg-white border border-stone-200 shadow-sm p-6 rounded-sm relative h-full flex flex-col fade-in">
                     <div class="card-tape"></div>
-                    <div>
-                        <div class="flex justify-between items-center mb-2">
-                            <span class="text-[10px] font-mono text-stone-400 uppercase tracking-widest">Skills / 03</span>
-                            <span class="text-xs font-hand text-stone-500 italic rotate-6">Interactive Network</span>
-                        </div>
-                        <h2 class="text-2xl font-serif font-bold text-stone-900 mb-1">Skills Graph</h2>
-                        <p class="text-[10px] text-stone-400 mb-4">Click and drag nodes to test spring physics. Hover nodes to see connections.</p>
-                        
-                        <!-- Interactive SVG Graph Container -->
-                        <div class="w-full h-64 bg-stone-50/50 border border-stone-100 rounded-sm relative overflow-hidden mb-6" id="graph-container">
-                            <svg class="w-full h-full cursor-crosshair" id="skills-svg"></svg>
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-[11px] font-mono font-semibold text-stone-400 uppercase tracking-widest">Skills / 03</span>
+                        <span class="text-sm font-hand font-semibold text-stone-500 italic rotate-6">Stack</span>
+                    </div>
+                    <h2 class="section-heading text-3xl font-serif font-extrabold text-stone-900 mb-6 leading-[1.1]">Technical Skills</h2>
+                    
+                    <!-- Languages -->
+                    <div class="mb-5">
+                        <h3 class="skill-category-label">Languages</h3>
+                        <div class="skills-grid">
+                            <div class="skill-item">
+                                <i class="devicon-java-plain colored" style="font-size:20px"></i>
+                                <span>Java</span>
+                            </div>
+                            <div class="skill-item">
+                                <i class="devicon-python-plain colored" style="font-size:20px"></i>
+                                <span>Python</span>
+                            </div>
+                            <div class="skill-item">
+                                <i class="devicon-c-plain colored" style="font-size:20px"></i>
+                                <span>C</span>
+                            </div>
+                            <div class="skill-item">
+                                <i class="devicon-javascript-plain colored" style="font-size:20px"></i>
+                                <span>JavaScript</span>
+                            </div>
+                            <div class="skill-item">
+                                <i class="devicon-html5-plain colored" style="font-size:20px"></i>
+                                <span>HTML</span>
+                            </div>
+                            <div class="skill-item">
+                                <i class="devicon-css3-plain colored" style="font-size:20px"></i>
+                                <span>CSS</span>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Skill Keywords -->
-                    <div class="space-y-4 pt-4 border-t border-stone-100">
-                        <div>
-                            <h3 class="text-xs font-mono uppercase text-stone-400 mb-2">Languages</h3>
-                            <div class="flex flex-wrap gap-2">
-                                <span class="px-2 py-1 bg-stone-100 rounded-sm text-xs">Java</span>
-                                <span class="px-2 py-1 bg-stone-100 rounded-sm text-xs">Python</span>
-                                <span class="px-2 py-1 bg-stone-100 rounded-sm text-xs">C</span>
-                                <span class="px-2 py-1 bg-stone-100 rounded-sm text-xs">JavaScript</span>
-                                <span class="px-2 py-1 bg-stone-100 rounded-sm text-xs">HTML / CSS</span>
+                    <!-- AI & Agentic Dev -->
+                    <div class="mb-5">
+                        <h3 class="skill-category-label">AI & Agentic Dev</h3>
+                        <div class="skills-grid">
+                            <div class="skill-item">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#01696f" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                                <span>Agentic AI</span>
+                            </div>
+                            <div class="skill-item">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4285F4" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v4m0 12v4M2 12h4m12 0h4"/><path d="M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83"/></svg>
+                                <span>Gemini API</span>
+                            </div>
+                            <div class="skill-item">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#01696f" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8m-4-4v4"/></svg>
+                                <span>MCP</span>
+                            </div>
+                            <div class="skill-item">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#01696f" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+                                <span>Prompt Eng.</span>
+                            </div>
+                            <div class="skill-item">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#01696f" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+                                <span>RAG</span>
+                            </div>
+                            <div class="skill-item">
+                                <i class="devicon-googlecloud-plain colored" style="font-size:20px"></i>
+                                <span>GCP</span>
                             </div>
                         </div>
-                        <div>
-                            <h3 class="text-xs font-mono uppercase text-stone-400 mb-2">AI & Architecture</h3>
-                            <div class="flex flex-wrap gap-2">
-                                <span class="px-2 py-1 bg-stone-100 rounded-sm text-xs">Agentic AI</span>
-                                <span class="px-2 py-1 bg-stone-100 rounded-sm text-xs">Gemini API</span>
-                                <span class="px-2 py-1 bg-stone-100 rounded-sm text-xs">MCP</span>
-                                <span class="px-2 py-1 bg-stone-100 rounded-sm text-xs">Prompt Engineering</span>
-                                <span class="px-2 py-1 bg-stone-100 rounded-sm text-xs">Firebase</span>
+                    </div>
+
+                    <!-- Tools & Frameworks -->
+                    <div class="mb-5">
+                        <h3 class="skill-category-label">Tools & Frameworks</h3>
+                        <div class="skills-grid">
+                            <div class="skill-item">
+                                <i class="devicon-firebase-plain colored" style="font-size:20px"></i>
+                                <span>Firebase</span>
                             </div>
+                            <div class="skill-item">
+                                <i class="devicon-flask-original" style="font-size:20px"></i>
+                                <span>Flask</span>
+                            </div>
+                            <div class="skill-item">
+                                <i class="devicon-git-plain colored" style="font-size:20px"></i>
+                                <span>Git</span>
+                            </div>
+                            <div class="skill-item">
+                                <i class="devicon-github-original" style="font-size:20px"></i>
+                                <span>GitHub</span>
+                            </div>
+                            <div class="skill-item">
+                                <i class="devicon-vercel-original" style="font-size:20px"></i>
+                                <span>Vercel</span>
+                            </div>
+                            <div class="skill-item">
+                                <i class="devicon-netlify-plain colored" style="font-size:20px"></i>
+                                <span>Netlify</span>
+                            </div>
+                            <div class="skill-item">
+                                <i class="devicon-vscode-plain colored" style="font-size:20px"></i>
+                                <span>VS Code</span>
+                            </div>
+                            <div class="skill-item">
+                                <svg width="20" height="20" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                                    <defs>
+                                        <linearGradient id="ag-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                            <stop offset="0%" style="stop-color:#4fc3f7"/>
+                                            <stop offset="100%" style="stop-color:#0288d1"/>
+                                        </linearGradient>
+                                    </defs>
+                                    <rect width="100" height="100" rx="22" fill="#1a1a2e"/>
+                                    <path d="M50 18L22 78h12l5-12h22l5 12h12L50 18zm0 22l8 20H42l8-20z" fill="url(#ag-grad)"/>
+                                </svg>
+                                <span>Antigravity</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Concepts -->
+                    <div>
+                        <h3 class="skill-category-label">Concepts</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="tech-badge">DSA</span>
+                            <span class="tech-badge">Graph Theory</span>
+                            <span class="tech-badge">Dijkstra's</span>
+                            <span class="tech-badge">OOP</span>
+                            <span class="tech-badge">System Design</span>
+                            <span class="tech-badge">REST APIs</span>
+                            <span class="tech-badge">SQL</span>
+                            <span class="tech-badge">DBMS</span>
                         </div>
                     </div>
                 </div>
@@ -196,117 +307,169 @@
         </div>
 
         <!-- Section: Projects (Grid Layout) -->
-        <section id="projects" class="mb-16">
+        <section id="projects" class="mb-16 fade-in">
             <div class="flex justify-between items-center mb-8">
                 <div>
-                    <h2 class="text-[10px] font-mono text-stone-400 uppercase tracking-[0.2em] mb-1">Selected Works</h2>
-                    <h3 class="text-3xl font-serif font-bold text-stone-900">Projects</h3>
+                    <h2 class="text-[10px] font-mono text-[#01696f] uppercase tracking-[0.2em] mb-1">Selected Works</h2>
+                    <h3 class="section-heading text-4xl font-serif font-bold text-stone-900 leading-[1.1]">Projects</h3>
                 </div>
             </div>
 
             <!-- Project Cards Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="project-card-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 
                 <!-- Project 1: Campus Navigator -->
-                <div class="card bg-white border border-stone-200 shadow-sm p-6 rounded-sm relative flex flex-col justify-between h-[380px]">
+                <div class="card bg-white border border-stone-200 shadow-sm p-6 rounded-sm relative flex flex-col justify-between fade-in fade-in-delay-1">
                     <div class="card-tape"></div>
                     <div>
                         <div class="flex justify-between items-center mb-4">
                             <span class="text-[10px] font-mono text-stone-400 uppercase tracking-widest">01 / Graph Pathing</span>
-                            <span class="text-xs font-hand text-stone-500 italic rotate-[-3deg]">Live</span>
+                            <span class="text-[10px] font-mono text-[#01696f]">May 2026</span>
                         </div>
                         <h4 class="text-xl font-serif font-bold text-stone-900 mb-2">GITAM Campus Navigator</h4>
                         <p class="text-xs text-stone-500 font-light leading-relaxed mb-4">
-                            Shortest-path system in Java with \(O(E \log V)\) time complexity across a 42-node, 76-edge weighted campus graph using Dijkstra's Algorithm from scratch.
+                            Graph-based shortest-path system in Java with O(E log V) time complexity across a 42-node, 76-edge weighted campus graph using Dijkstra's Algorithm from scratch.
                         </p>
-                        <ul class="text-[11px] text-stone-400 space-y-1">
-                            <li>• Zero-dependency vanilla JS frontend</li>
-                            <li>• Walking route backtracking with prev[] array</li>
-                            <li>• Partial fuzzy name search / auto-match</li>
-                        </ul>
-                    </div>
-                    <div class="flex justify-between items-center mt-6 pt-4 border-t border-stone-100">
-                        <span class="text-[10px] font-mono text-stone-400">Java · JS · Dijkstra</span>
-                        <div class="flex gap-3 text-xs font-mono">
-                            <a href="https://github.com/veerajyothish" target="_blank" class="hover:text-orange-500 transition-colors underline">GitHub</a>
-                            <a href="#" class="hover:text-orange-500 transition-colors underline">Live</a>
+                        <!-- Tech badges -->
+                        <div class="flex flex-wrap gap-1.5 mb-4">
+                            <span class="tech-badge">Java</span>
+                            <span class="tech-badge">Dijkstra's</span>
+                            <span class="tech-badge">JavaScript</span>
+                            <span class="tech-badge">Vercel</span>
                         </div>
+                    </div>
+                    <div class="flex gap-3 mt-4 pt-4 border-t border-stone-100">
+                        <a href="https://github.com/veerajyothish/campus-navigator" target="_blank" rel="noopener noreferrer" class="project-btn">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                            GitHub
+                        </a>
+                        <a href="https://campus-navigator-gitam.vercel.app/" target="_blank" rel="noopener noreferrer" class="project-btn project-btn-primary">
+                            Live Demo →
+                        </a>
                     </div>
                 </div>
 
                 <!-- Project 2: EduTracker -->
-                <div class="card bg-white border border-stone-200 shadow-sm p-6 rounded-sm relative flex flex-col justify-between h-[380px]">
+                <div class="card bg-white border border-stone-200 shadow-sm p-6 rounded-sm relative flex flex-col justify-between fade-in fade-in-delay-2">
                     <div class="card-tape"></div>
                     <div>
                         <div class="flex justify-between items-center mb-4">
                             <span class="text-[10px] font-mono text-stone-400 uppercase tracking-widest">02 / Agentic AI</span>
-                            <span class="text-xs font-hand text-stone-500 italic rotate-[2deg]">Hackathon</span>
+                            <span class="text-[10px] font-mono text-[#01696f]">Dec 2025</span>
                         </div>
                         <h4 class="text-xl font-serif font-bold text-stone-900 mb-2">EduTracker</h4>
                         <p class="text-xs text-stone-500 font-light leading-relaxed mb-4">
-                            College management platform built by leading Gemini API agentic AI orchestration. Automates attendance (QR-codes) and placement workflows backed by Firebase Firestore.
+                            5-module, 3-role college management platform co-delivered in a single hackathon cycle by leading Gemini API agentic AI orchestration. QR-code attendance, placement workflows, Firebase Firestore backend.
                         </p>
-                        <ul class="text-[11px] text-stone-400 space-y-1">
-                            <li>• Autonomously planned modules via prompts</li>
-                            <li>• Role-based Access Control (RBAC)</li>
-                            <li>• Real-time NoSQL Firestore sync</li>
-                        </ul>
-                    </div>
-                    <div class="flex justify-between items-center mt-6 pt-4 border-t border-stone-100">
-                        <span class="text-[10px] font-mono text-stone-400">Gemini API · Firestore</span>
-                        <div class="flex gap-3 text-xs font-mono">
-                            <a href="https://github.com/veerajyothish" target="_blank" class="hover:text-orange-500 transition-colors underline">GitHub</a>
-                            <a href="#" class="hover:text-orange-500 transition-colors underline">Live</a>
+                        <!-- Tech badges -->
+                        <div class="flex flex-wrap gap-1.5 mb-4">
+                            <span class="tech-badge">Gemini API</span>
+                            <span class="tech-badge">Firebase</span>
+                            <span class="tech-badge">Agentic AI</span>
+                            <span class="tech-badge">RBAC</span>
                         </div>
+                    </div>
+                    <div class="flex gap-3 mt-4 pt-4 border-t border-stone-100">
+                        <a href="https://github.com/veerajyothish/edutracker" target="_blank" rel="noopener noreferrer" class="project-btn">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                            GitHub
+                        </a>
+                        <a href="https://edutracker-college.vercel.app" target="_blank" rel="noopener noreferrer" class="project-btn project-btn-primary">
+                            Live Demo →
+                        </a>
                     </div>
                 </div>
 
                 <!-- Project 3: Login Authenticator -->
-                <div class="card bg-white border border-stone-200 shadow-sm p-6 rounded-sm relative flex flex-col justify-between h-[380px]">
+                <div class="card bg-white border border-stone-200 shadow-sm p-6 rounded-sm relative flex flex-col justify-between fade-in fade-in-delay-3">
                     <div class="card-tape"></div>
                     <div>
                         <div class="flex justify-between items-center mb-4">
                             <span class="text-[10px] font-mono text-stone-400 uppercase tracking-widest">03 / Web Security</span>
-                            <span class="text-xs font-hand text-stone-500 italic rotate-[-2deg]">Hardened</span>
+                            <span class="text-[10px] font-mono text-[#01696f]">May 2026</span>
                         </div>
                         <h4 class="text-xl font-serif font-bold text-stone-900 mb-2">OIBSIP Login Authenticator</h4>
                         <p class="text-xs text-stone-500 font-light leading-relaxed mb-4">
-                            Full-stack Flask application. Eliminated session hijacking, credential exposure, and SQL injection security vectors.
+                            Full-stack Flask authentication app eliminating session hijacking, credential exposure, and SQL injection vectors. Bcrypt hashing, parameterised queries, server-side session management.
                         </p>
-                        <ul class="text-[11px] text-stone-400 space-y-1">
-                            <li>• Secure bcrypt password hashing</li>
-                            <li>• Parameterized SQL queries for DB calls</li>
-                            <li>• Server-side session validation</li>
-                        </ul>
-                    </div>
-                    <div class="flex justify-between items-center mt-6 pt-4 border-t border-stone-100">
-                        <span class="text-[10px] font-mono text-stone-400">Python · Flask · SQLite</span>
-                        <div class="flex gap-3 text-xs font-mono">
-                            <a href="https://github.com/veerajyothish" target="_blank" class="hover:text-orange-500 transition-colors underline">GitHub</a>
-                            <a href="#" class="hover:text-orange-500 transition-colors underline">Live</a>
+                        <!-- Tech badges -->
+                        <div class="flex flex-wrap gap-1.5 mb-4">
+                            <span class="tech-badge">Python</span>
+                            <span class="tech-badge">Flask</span>
+                            <span class="tech-badge">bcrypt</span>
+                            <span class="tech-badge">SQLite</span>
+                            <span class="tech-badge">Vercel</span>
                         </div>
+                    </div>
+                    <div class="flex gap-3 mt-4 pt-4 border-t border-stone-100">
+                        <a href="https://github.com/veerajyothish/OIBSIP" target="_blank" rel="noopener noreferrer" class="project-btn">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                            GitHub
+                        </a>
+                        <a href="https://login-auth-jyo.vercel.app/" target="_blank" rel="noopener noreferrer" class="project-btn project-btn-primary">
+                            Live Demo →
+                        </a>
                     </div>
                 </div>
 
             </div>
         </section>
 
-        <!-- Section: Contact -->
-        <section id="contact" class="mb-8">
-            <div class="card bg-white border border-stone-200 shadow-sm p-8 rounded-sm relative max-w-xl mx-auto text-center">
+        <!-- Section: Interactive Terminal -->
+        <section id="terminal" class="mb-16 md:mb-24 fade-in">
+            <div class="card bg-stone-950 border border-stone-800 shadow-xl p-6 rounded-sm relative font-mono text-left" style="background-color: #0c0a09 !important; border-color: #292524 !important;">
                 <div class="card-tape"></div>
-                <h2 class="text-[10px] font-mono text-stone-400 uppercase tracking-[0.2em] mb-2">Get in Touch</h2>
-                <h3 class="text-3xl font-serif font-bold text-stone-900 mb-4">Let's Connect</h3>
-                <p class="text-sm text-stone-500 font-light leading-relaxed mb-6">
-                    I am actively seeking SDE and AI/ML internship roles. Reach out if you'd like to collaborate or just talk algorithms!
-                </p>
-                <div class="flex flex-col sm:flex-row justify-center items-center gap-4 text-xs font-mono text-stone-600">
-                    <a href="mailto:jyothishbv@gmail.com" class="hover:text-orange-500 underline transition-colors">jyothishbv@gmail.com</a>
-                    <span class="hidden sm:inline text-stone-300">|</span>
-                    <a href="tel:+918074232808" class="hover:text-orange-500 underline transition-colors">+91 8074232808</a>
-                    <span class="hidden sm:inline text-stone-300">|</span>
-                    <span>Visakhapatnam, AP</span>
+                <!-- Terminal Title Bar -->
+                <div class="flex justify-between items-center border-b border-stone-800 pb-3 mb-4 select-none">
+                    <div class="flex gap-2">
+                        <span class="w-3.5 h-3.5 rounded-full bg-red-500/80 cursor-pointer" title="Close" onclick="document.getElementById('terminal').style.display='none'"></span>
+                        <span class="w-3.5 h-3.5 rounded-full bg-yellow-500/80 cursor-pointer" title="Minimize" onclick="document.getElementById('terminal-output').style.display = document.getElementById('terminal-output').style.display === 'none' ? 'block' : 'none'"></span>
+                        <span class="w-3.5 h-3.5 rounded-full bg-green-500/80"></span>
+                    </div>
+                    <span class="text-xs text-stone-500 font-bold tracking-wider">bvj@antigravity-os:~</span>
+                    <span class="text-xs text-stone-500 font-bold">v1.2.0</span>
                 </div>
+                
+                <!-- Terminal Output Buffer -->
+                <div id="terminal-output" class="text-xs text-stone-300 leading-relaxed overflow-y-auto max-h-[260px] space-y-2 mb-4 pr-2 select-text">
+                    <div class="text-teal-400 font-bold">Antigravity OS v1.2.0 initialized.</div>
+                    <div>Hello! I am <span class="text-[#ffb68d] font-bold">Bondada Veera Jyothish</span>. This is an interactive terminal environment.</div>
+                    <div>Type <span class="text-[#ffb68d] font-bold">help</span> to list all available commands. Try typing <span class="text-red-400 font-bold">antigravity</span>!</div>
+                    <br>
+                </div>
+                
+                <!-- Terminal Input Prompt -->
+                <div class="flex items-center text-xs text-stone-300">
+                    <span class="text-teal-400 mr-2 select-none">bvj@portfolio:~$</span>
+                    <input type="text" id="terminal-input" class="bg-transparent border-none outline-none flex-1 text-[#ffb68d] font-mono text-xs focus:ring-0 p-0" autocomplete="off" spellcheck="false" placeholder="Type a command and press Enter...">
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Contact -->
+        <section id="contact" class="mb-8 fade-in">
+            <div class="card bg-white border border-stone-200 shadow-sm p-8 rounded-sm relative max-w-xl text-left">
+                <div class="card-tape"></div>
+                <h2 class="text-[10px] font-mono text-[#01696f] uppercase tracking-[0.2em] mb-2">Get in Touch</h2>
+                <h3 class="section-heading text-4xl font-serif font-bold text-stone-900 mb-4 leading-[1.1]">Let's Connect</h3>
+                <p class="text-sm text-stone-500 font-light leading-relaxed mb-6">
+                    I am actively seeking SDE and AI/ML internship roles. Reach out if you'd like to collaborate.
+                </p>
+                
+                <!-- Contact Links — plain text, stacked vertically -->
+                <div class="contact-links flex flex-col items-start gap-2 text-xs font-mono text-stone-600 mb-6">
+                    <a href="mailto:jyothishbv@gmail.com" target="_blank" rel="noopener noreferrer" class="hover:text-[#01696f] underline transition-colors">📧 jyothishbv@gmail.com</a>
+                    <a href="https://github.com/veerajyothish" target="_blank" rel="noopener noreferrer" class="hover:text-[#01696f] underline transition-colors">⌘ github.com/veerajyothish</a>
+                    <a href="https://linkedin.com/in/veerajyothish" target="_blank" rel="noopener noreferrer" class="hover:text-[#01696f] underline transition-colors">↗ linkedin.com/in/veerajyothish</a>
+                </div>
+
+                <!-- Formspree Contact Form -->
+                <form action="https://formspree.io/f/YOUR_ID" method="POST" class="contact-form">
+                    <input type="text" name="name" placeholder="Your Name" required>
+                    <input type="email" name="email" placeholder="Your Email" required>
+                    <textarea name="message" placeholder="Your Message" rows="4" required></textarea>
+                    <button type="submit">Send Message →</button>
+                </form>
             </div>
         </section>
 
@@ -314,20 +477,26 @@
 
     <!-- Footer -->
     <footer class="w-full py-12 border-t border-stone-200/50 bg-transparent relative z-10">
-        <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
+        <div class="footer-inner max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
             <div class="text-sm font-mono text-stone-400">
-                © 2024 Bondada Veera Jyothish. Built with intent.
+                © 2026 Bondada Veera Jyothish. Built with intent.
             </div>
             <div class="flex gap-6 text-xs font-mono">
-                <a href="https://linkedin.com/in/veerajyothish" target="_blank" class="hover:text-orange-500 underline transition-colors">LinkedIn</a>
-                <a href="https://github.com/veerajyothish" target="_blank" class="hover:text-orange-500 underline transition-colors">GitHub</a>
+                <a href="https://linkedin.com/in/veerajyothish" target="_blank" rel="noopener noreferrer" class="hover:text-[#01696f] underline transition-colors">LinkedIn</a>
+                <a href="https://github.com/veerajyothish" target="_blank" rel="noopener noreferrer" class="hover:text-[#01696f] underline transition-colors">GitHub</a>
+                <a href="mailto:jyothishbv@gmail.com" class="hover:text-[#01696f] underline transition-colors">Email</a>
             </div>
         </div>
     </footer>
 
-    <!-- Audio Toggle Button -->
-    <div class="fixed bottom-6 right-6 z-50">
-        <button id="audio-toggle" class="w-10 h-10 flex items-center justify-center border border-stone-300 rounded-full bg-white/80 hover:bg-stone-50 transition-colors text-xs shadow-sm" title="Mute/Unmute UI Sounds">
+    <!-- Fixed Action Controls (Bottom Right) -->
+    <div class="fixed bottom-6 right-6 z-50 flex flex-col gap-3">
+        <!-- Dark Mode Toggle -->
+        <button id="theme-toggle" class="w-10 h-10 flex items-center justify-center border border-stone-300 rounded-full bg-white/80 hover:bg-stone-50 transition-all text-sm shadow-sm" title="Toggle Light/Dark Mode" style="border-color: var(--border); background-color: var(--card-bg); color: var(--text-primary);">
+            🌙
+        </button>
+        <!-- Audio Toggle Button -->
+        <button id="audio-toggle" class="w-10 h-10 flex items-center justify-center border border-stone-300 rounded-full bg-white/80 hover:bg-stone-50 transition-all text-xs shadow-sm" title="Sound Mode: Clicks" style="border-color: var(--border); background-color: var(--card-bg); color: var(--text-primary);">
             🔊
         </button>
     </div>
