@@ -1,0 +1,89 @@
+/* index.css */
+
+/* Core styling and transitions */
+body {
+    transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+/* Card Visual Style (tactile paper card) */
+.card {
+    background-color: #ffffff;
+    border-radius: 4px;
+    box-shadow: 0 4px 6px -1px rgba(28, 25, 23, 0.05), 0 2px 4px -2px rgba(28, 25, 23, 0.05);
+    transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.3s ease;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+}
+
+.card:hover {
+    box-shadow: 0 10px 20px -5px rgba(28, 25, 23, 0.08), 0 4px 6px -4px rgba(28, 25, 23, 0.08);
+}
+
+/* Tactile Masking Tape Effect on Sticky Notes */
+.card-tape {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%) rotate(-2deg);
+    width: 90px;
+    height: 24px;
+    background-color: rgba(245, 240, 225, 0.75);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+    border-left: 2px dashed rgba(0, 0, 0, 0.08);
+    border-right: 2px dashed rgba(0, 0, 0, 0.08);
+    z-index: 30;
+    pointer-events: none;
+}
+
+/* Loader Panel Sliding Animations */
+#loader.loaded .loader-panel-top {
+    transform: translateY(-100%);
+}
+
+#loader.loaded .loader-panel-bottom {
+    transform: translateY(100%);
+}
+
+#loader.loaded .loader-content {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+}
+
+/* Nav Link Underline animation */
+.nav-link {
+    position: relative;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background-color: #1c1917;
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #fafaf9;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #e7e5e4;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #d6d3d1;
+}

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bondada Veera Jyothish | Portfolio</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Playfair+Display:ital,wght@0,500;0,700;1,400&family=Permanent+Marker&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                        hand: ['Caveat', 'cursive'],
+                        marker: ['Permanent Marker', 'cursive'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="index.css">
+</head>
+<body class="bg-[#fafaf9] text-[#1c1917] font-sans antialiased overflow-x-hidden min-h-screen selection:bg-stone-200">
+    
+    <!-- Split Panel Entry Loader -->
+    <div id="loader" class="fixed inset-0 z-[9999] flex flex-col justify-between pointer-events-auto select-none">
+        <div class="loader-panel loader-panel-top bg-[#1c1917] w-full h-[50vh] transition-transform duration-[800ms] ease-[cubic-bezier(0.76,0,0.24,1)]"></div>
+        <div class="loader-panel loader-panel-bottom bg-[#1c1917] w-full h-[50vh] transition-transform duration-[800ms] ease-[cubic-bezier(0.76,0,0.24,1)]"></div>
+        <div class="loader-content absolute inset-0 flex flex-col items-center justify-center z-[10000] text-[#fafaf9]">
+            <div class="text-5xl font-serif italic tracking-wider mb-6 opacity-0 translate-y-4 transition-all duration-700 ease-out" id="loader-logo">BVJ</div>
+            <div class="w-48 h-[2px] bg-stone-800 rounded overflow-hidden mb-2">
+                <div id="loader-bar" class="w-0 h-full bg-[#fafaf9] transition-all duration-150"></div>
+            </div>
+            <div id="loader-percent" class="text-xs font-mono opacity-50">0%</div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 w-full z-40 border-b border-stone-200/50 bg-[#fafaf9]/75 backdrop-blur-md py-4 px-6 md:px-12 flex justify-between items-center" id="main-nav">
+        <a href="#hero" class="text-lg font-serif italic font-bold tracking-tight select-none">
+            Bondada V.J.
+        </a>
+        
+        <div class="flex items-center gap-6">
+            <div class="flex gap-4 md:gap-8 text-xs uppercase tracking-widest font-medium text-stone-500">
+                <a href="#about" class="nav-link hover:text-stone-900 transition-colors">About</a>
+                <a href="#skills" class="nav-link hover:text-stone-900 transition-colors">Skills</a>
+                <a href="#projects" class="nav-link hover:text-stone-900 transition-colors">Projects</a>
+                <a href="#contact" class="nav-link hover:text-stone-900 transition-colors">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Flow -->
+    <main class="relative z-10 w-full max-w-6xl mx-auto pt-32 pb-24 px-6" id="workspace">
+        
+        <!-- Hero Section -->
+        <section id="hero" class="mb-16 md:mb-24 text-center md:text-left">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-stone-200 bg-white/80 shadow-sm text-[10px] uppercase font-mono tracking-wider text-stone-500 mb-6">
+                <span class="relative flex h-2 w-2">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                </span>
+                <span>Available for Internships</span>
+            </div>
+            
+            <h1 class="text-4xl md:text-6xl lg:text-7xl font-serif font-bold leading-[1.1] tracking-tight mb-6 text-stone-900">
+                Defuse systems.<br>
+                Reframe problems.<br>
+                <span class="text-stone-400 italic">Code with intent.</span>
+            </h1>
+            
+            <p class="text-base md:text-lg text-stone-500 font-light leading-relaxed max-w-2xl">
+                I build agentic workflows that solve complex integration problems, and engineer spatial algorithms from scratch. A B.Tech CSE student currently shipping code.
+            </p>
+        </section>
+
+        <!-- Two Column Layout for About & Skills -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-16">
+            
+            <!-- Left Column: About & Education (7 cols) -->
+            <section id="about" class="lg:col-span-7 space-y-8">
+                
+                <!-- About Card -->
+                <div class="card bg-white border border-stone-200 shadow-sm p-6 rounded-sm relative">
+                    <div class="card-tape"></div>
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-[10px] font-mono text-stone-400 uppercase tracking-widest">Index / 01</span>
+                        <span class="text-xs font-hand text-stone-500 italic rotate-3">Bio</span>
+                    </div>
+                    <h2 class="text-2xl font-serif font-bold text-stone-900 mb-3">Who I Am</h2>
+                    <p class="text-sm text-stone-600 leading-relaxed font-light mb-4">
+                        I am a Java & Python developer specializing in Agentic AI orchestration, prompt engineering, and LLM application development using the Gemini API. Certified in Google Cloud AI Agents.
+                    </p>
+                    <p class="text-sm text-stone-600 leading-relaxed font-light">
+                        I focus on bridging the gap between complex data structures and intuitive, production-ready workflows.
+                    </p>
+                </div>
+
+                <!-- Education & Certifications Card -->
+                <div class="card bg-white border border-stone-200 shadow-sm p-6 rounded-sm relative">
+                    <div class="card-tape"></div>
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-[10px] font-mono text-stone-400 uppercase tracking-widest">Metadata / 02</span>
+                        <span class="text-xs font-hand text-stone-500 italic rotate-[-2deg]">Timeline</span>
+                    </div>
+                    <h2 class="text-2xl font-serif font-bold text-stone-900 mb-6">Education & Credentials</h2>
+                    
+                    <div class="space-y-6">
+                        <!-- Education -->
+                        <div class="border-l border-stone-200 pl-4 relative ml-1.5">
+                            <div class="absolute w-2 h-2 rounded-full bg-stone-400 -left-[4.5px] top-1.5"></div>
+                            <h3 class="text-sm font-semibold text-stone-900">B.Tech in Computer Science & Engineering</h3>
+                            <p class="text-xs text-stone-500">GITAM University, Visakhapatnam | 2024 – 2028 (Expected)</p>
+                            <p class="text-xs text-stone-400 mt-1">2nd Year | CGPA: 7.5 | Coursework: DSA, OOP, DBMS, OS, Networks</p>
+                        </div>
+                        
+                        <!-- Certifications -->
+                        <div class="border-l border-stone-200 pl-4 relative ml-1.5">
+                            <div class="absolute w-2 h-2 rounded-full bg-stone-400 -left-[4.5px] top-1.5"></div>
+                            <h3 class="text-sm font-semibold text-stone-900">Google Cloud / Google Skills Certifications</h3>
+                            <ul class="text-xs text-stone-500 list-disc list-inside mt-1 space-y-0.5">
+                                <li>Create Your First Gemini Enterprise Application (Jun 2026)</li>
+                                <li>Enterprise Agents and Use Cases (Jun 2026)</li>
+                                <li>Agent Fundamentals (Jun 2026)</li>
+                                <li>Introduction to AI Agents (Jun 2026)</li>
+                            </ul>
+                        </div>
+
+                        <!-- Secondary Education -->
+                        <div class="border-l border-stone-200 pl-4 relative ml-1.5">
+                            <div class="absolute w-2 h-2 rounded-full bg-stone-400 -left-[4.5px] top-1.5"></div>
+                            <h3 class="text-sm font-semibold text-stone-900">Class XII / Junior College</h3>
+                            <p class="text-xs text-stone-500">Sri Chaitanya Junior College, Srikakulam | Jun 2022 – Apr 2024</p>
+                            <p class="text-xs text-stone-400 mt-1">Grade: A</p>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- Right Column: Skills (5 cols) -->
+            <section id="skills" class="lg:col-span-5">
+                <div class="card bg-white border border-stone-200 shadow-sm p-6 rounded-sm relative h-full flex flex-col justify-between">
+                    <div class="card-tape"></div>
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-[10px] font-mono text-stone-400 uppercase tracking-widest">Skills / 03</span>
+                            <span class="text-xs font-hand text-stone-500 italic rotate-6">Interactive Network</span>
+                        </div>
+                        <h2 class="text-2xl font-serif font-bold text-stone-900 mb-1">Skills Graph</h2>
+                        <p class="text-[10px] text-stone-400 mb-4">Click and drag nodes to test spring physics. Hover nodes to see connections.</p>
+                        
+                        <!-- Interactive SVG Graph Container -->
+                        <div class="w-full h-64 bg-stone-50/50 border border-stone-100 rounded-sm relative overflow-hidden mb-6" id="graph-container">
+                            <svg class="w-full h-full cursor-crosshair" id="skills-svg"></svg>
+                        </div>
+                    </div>
+
+                    <!-- Skill Keywords -->
+                    <div class="space-y-4 pt-4 border-t border-stone-100">
+                        <div>
+                            <h3 class="text-xs font-mono uppercase text-stone-400 mb-2">Languages</h3>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-2 py-1 bg-stone-100 rounded-sm text-xs">Java</span>
+                                <span class="px-2 py-1 bg-stone-100 rounded-sm text-xs">Python</span>
+                                <span class="px-2 py-1 bg-stone-100 rounded-sm text-xs">C</span>
+                                <span class="px-2 py-1 bg-stone-100 rounded-sm text-xs">JavaScript</span>
+                                <span class="px-2 py-1 bg-stone-100 rounded-sm text-xs">HTML / CSS</span>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="text-xs font-mono uppercase text-stone-400 mb-2">AI & Architecture</h3>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-2 py-1 bg-stone-100 rounded-sm text-xs">Agentic AI</span>
+                                <span class="px-2 py-1 bg-stone-100 rounded-sm text-xs">Gemini API</span>
+                                <span class="px-2 py-1 bg-stone-100 rounded-sm text-xs">MCP</span>
+                                <span class="px-2 py-1 bg-stone-100 rounded-sm text-xs">Prompt Engineering</span>
+                                <span class="px-2 py-1 bg-stone-100 rounded-sm text-xs">Firebase</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Section: Projects (Grid Layout) -->
+        <section id="projects" class="mb-16">
+            <div class="flex justify-between items-center mb-8">
+                <div>
+                    <h2 class="text-[10px] font-mono text-stone-400 uppercase tracking-[0.2em] mb-1">Selected Works</h2>
+                    <h3 class="text-3xl font-serif font-bold text-stone-900">Projects</h3>
+                </div>
+            </div>
+
+            <!-- Project Cards Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Project 1: Campus Navigator -->
+                <div class="card bg-white border border-stone-200 shadow-sm p-6 rounded-sm relative flex flex-col justify-between h-[380px]">
+                    <div class="card-tape"></div>
+                    <div>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-[10px] font-mono text-stone-400 uppercase tracking-widest">01 / Graph Pathing</span>
+                            <span class="text-xs font-hand text-stone-500 italic rotate-[-3deg]">Live</span>
+                        </div>
+                        <h4 class="text-xl font-serif font-bold text-stone-900 mb-2">GITAM Campus Navigator</h4>
+                        <p class="text-xs text-stone-500 font-light leading-relaxed mb-4">
+                            Shortest-path system in Java with \(O(E \log V)\) time complexity across a 42-node, 76-edge weighted campus graph using Dijkstra's Algorithm from scratch.
+                        </p>
+                        <ul class="text-[11px] text-stone-400 space-y-1">
+                            <li>• Zero-dependency vanilla JS frontend</li>
+                            <li>• Walking route backtracking with prev[] array</li>
+                            <li>• Partial fuzzy name search / auto-match</li>
+                        </ul>
+                    </div>
+                    <div class="flex justify-between items-center mt-6 pt-4 border-t border-stone-100">
+                        <span class="text-[10px] font-mono text-stone-400">Java · JS · Dijkstra</span>
+                        <div class="flex gap-3 text-xs font-mono">
+                            <a href="https://github.com/veerajyothish" target="_blank" class="hover:text-orange-500 transition-colors underline">GitHub</a>
+                            <a href="#" class="hover:text-orange-500 transition-colors underline">Live</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 2: EduTracker -->
+                <div class="card bg-white border border-stone-200 shadow-sm p-6 rounded-sm relative flex flex-col justify-between h-[380px]">
+                    <div class="card-tape"></div>
+                    <div>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-[10px] font-mono text-stone-400 uppercase tracking-widest">02 / Agentic AI</span>
+                            <span class="text-xs font-hand text-stone-500 italic rotate-[2deg]">Hackathon</span>
+                        </div>
+                        <h4 class="text-xl font-serif font-bold text-stone-900 mb-2">EduTracker</h4>
+                        <p class="text-xs text-stone-500 font-light leading-relaxed mb-4">
+                            College management platform built by leading Gemini API agentic AI orchestration. Automates attendance (QR-codes) and placement workflows backed by Firebase Firestore.
+                        </p>
+                        <ul class="text-[11px] text-stone-400 space-y-1">
+                            <li>• Autonomously planned modules via prompts</li>
+                            <li>• Role-based Access Control (RBAC)</li>
+                            <li>• Real-time NoSQL Firestore sync</li>
+                        </ul>
+                    </div>
+                    <div class="flex justify-between items-center mt-6 pt-4 border-t border-stone-100">
+                        <span class="text-[10px] font-mono text-stone-400">Gemini API · Firestore</span>
+                        <div class="flex gap-3 text-xs font-mono">
+                            <a href="https://github.com/veerajyothish" target="_blank" class="hover:text-orange-500 transition-colors underline">GitHub</a>
+                            <a href="#" class="hover:text-orange-500 transition-colors underline">Live</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 3: Login Authenticator -->
+                <div class="card bg-white border border-stone-200 shadow-sm p-6 rounded-sm relative flex flex-col justify-between h-[380px]">
+                    <div class="card-tape"></div>
+                    <div>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-[10px] font-mono text-stone-400 uppercase tracking-widest">03 / Web Security</span>
+                            <span class="text-xs font-hand text-stone-500 italic rotate-[-2deg]">Hardened</span>
+                        </div>
+                        <h4 class="text-xl font-serif font-bold text-stone-900 mb-2">OIBSIP Login Authenticator</h4>
+                        <p class="text-xs text-stone-500 font-light leading-relaxed mb-4">
+                            Full-stack Flask application. Eliminated session hijacking, credential exposure, and SQL injection security vectors.
+                        </p>
+                        <ul class="text-[11px] text-stone-400 space-y-1">
+                            <li>• Secure bcrypt password hashing</li>
+                            <li>• Parameterized SQL queries for DB calls</li>
+                            <li>• Server-side session validation</li>
+                        </ul>
+                    </div>
+                    <div class="flex justify-between items-center mt-6 pt-4 border-t border-stone-100">
+                        <span class="text-[10px] font-mono text-stone-400">Python · Flask · SQLite</span>
+                        <div class="flex gap-3 text-xs font-mono">
+                            <a href="https://github.com/veerajyothish" target="_blank" class="hover:text-orange-500 transition-colors underline">GitHub</a>
+                            <a href="#" class="hover:text-orange-500 transition-colors underline">Live</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Section: Contact -->
+        <section id="contact" class="mb-8">
+            <div class="card bg-white border border-stone-200 shadow-sm p-8 rounded-sm relative max-w-xl mx-auto text-center">
+                <div class="card-tape"></div>
+                <h2 class="text-[10px] font-mono text-stone-400 uppercase tracking-[0.2em] mb-2">Get in Touch</h2>
+                <h3 class="text-3xl font-serif font-bold text-stone-900 mb-4">Let's Connect</h3>
+                <p class="text-sm text-stone-500 font-light leading-relaxed mb-6">
+                    I am actively seeking SDE and AI/ML internship roles. Reach out if you'd like to collaborate or just talk algorithms!
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center items-center gap-4 text-xs font-mono text-stone-600">
+                    <a href="mailto:jyothishbv@gmail.com" class="hover:text-orange-500 underline transition-colors">jyothishbv@gmail.com</a>
+                    <span class="hidden sm:inline text-stone-300">|</span>
+                    <a href="tel:+918074232808" class="hover:text-orange-500 underline transition-colors">+91 8074232808</a>
+                    <span class="hidden sm:inline text-stone-300">|</span>
+                    <span>Visakhapatnam, AP</span>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full py-12 border-t border-stone-200/50 bg-transparent relative z-10">
+        <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="text-sm font-mono text-stone-400">
+                © 2024 Bondada Veera Jyothish. Built with intent.
+            </div>
+            <div class="flex gap-6 text-xs font-mono">
+                <a href="https://linkedin.com/in/veerajyothish" target="_blank" class="hover:text-orange-500 underline transition-colors">LinkedIn</a>
+                <a href="https://github.com/veerajyothish" target="_blank" class="hover:text-orange-500 underline transition-colors">GitHub</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Audio Toggle Button -->
+    <div class="fixed bottom-6 right-6 z-50">
+        <button id="audio-toggle" class="w-10 h-10 flex items-center justify-center border border-stone-300 rounded-full bg-white/80 hover:bg-stone-50 transition-colors text-xs shadow-sm" title="Mute/Unmute UI Sounds">
+            🔊
+        </button>
+    </div>
+
+    <!-- Script Entry -->
+    <script src="index.js"></script>
+</body>
+</html>
