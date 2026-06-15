@@ -3,7 +3,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     // --- 1. WEB AUDIO API SYNTHESIZER ---
     let audioCtx = null;
-    let isMuted = false;
 
     function initAudio() {
         if (!audioCtx) {
@@ -16,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Play synthesized click sound
     function playClickSound() {
-        if (isMuted) return;
+        if (soundMode === 'mute') return;
         initAudio();
         try {
             const osc = audioCtx.createOscillator();
@@ -41,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Play synthesized flip/sweep sound on loading complete
     function playLoadSound() {
-        if (isMuted) return;
+        if (soundMode === 'mute') return;
         initAudio();
         try {
             const osc = audioCtx.createOscillator();
