@@ -1,13 +1,6 @@
-# checklist for Portfolio Upgrades
+# checklist for Matte Black & Moving Grid Upgrades
 
-- [x] Define CSS theme variables for Light and Dark Blueprint Modes in `index.css`
-- [x] Implement `@keyframes` and classes for the "zero-gravity" float Easter egg in `index.css`
-- [x] Update `index.html` structure:
-    - Add Dark Mode and Sound Customizer controls to the bottom-right actions tray
-    - Update nav bar class list for light orange translucency
-    - Embed the Retro CLI Terminal Widget card above the contact section
-- [x] Update `index.js` logic:
-    - Add Theme Toggle logic and class-based toggle for Tailwind
-    - Add three-state Sound Customizer arpeggio sweep logic
-    - Add CLI input parser and command handler (including `antigravity` float trigger)
-- [x] Verify execution in browser and document results
+- [x] Update CSS variables in `index.css` for matte black theme, clean body background, and container adjustments
+- [x] Add canvas tag (`#grid-canvas`) to `index.html` covering the background
+- [x] Write JavaScript logic in `index.js` to draw the grid and compute cursor-based line repulsion
+- [x] Verify execution in the browser and take screenshots in light and dark mode

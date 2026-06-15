@@ -531,4 +531,133 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // --- 9. INTERACTIVE CANVAS GRID REPULSION ---
+    const canvas = document.getElementById('grid-canvas');
+    if (canvas) {
+        const ctx = canvas.getContext('2d');
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+        
+        let mouseX = -1000;
+        let mouseY = -1000;
+        let targetMouseX = -1000;
+        let targetMouseY = -1000;
+
+        // Track cursor coordinates
+        window.addEventListener('mousemove', (e) => {
+            targetMouseX = e.clientX;
+            targetMouseY = e.clientY;
+        });
+
+        window.addEventListener('mouseleave', () => {
+            targetMouseX = -1000;
+            targetMouseY = -1000;
+        });
+
+        // Resize handler
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        });
+
+        function drawGrid() {
+            ctx.clearRect(0, 0, width, height);
+            
+            // Check if dark mode is active
+            const isDarkMode = document.documentElement.classList.contains('dark');
+            
+            // Lerp mouse coordinates for smooth lag-free movement follow
+            if (mouseX === -1000 && targetMouseX !== -1000) {
+                mouseX = targetMouseX;
+                mouseY = targetMouseY;
+            } else if (targetMouseX === -1000) {
+                // Return to default resting point out of bounds slowly
+                mouseX += (-1000 - mouseX) * 0.1;
+                mouseY += (-1000 - mouseY) * 0.1;
+            } else {
+                mouseX += (targetMouseX - mouseX) * 0.15;
+                mouseY += (targetMouseY - mouseY) * 0.15;
+            }
+
+            const step = 40;
+            const radius = 150;
+            const maxMove = 15;
+            
+            const cols = Math.ceil(width / step) + 1;
+            const rows = Math.ceil(height / step) + 1;
+            
+            // Calculate grid intersections
+            const points = [];
+            for (let r = 0; r <= rows; r++) {
+                points[r] = [];
+                for (let c = 0; c <= cols; c++) {
+                    let px = c * step;
+                    let py = r * step;
+                    
+                    const dx = px - mouseX;
+                    const dy = py - mouseY;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (dist < radius && dist > 0) {
+                        // Elastic repulsion curve
+                        const power = Math.pow((radius - dist) / radius, 1.8);
+                        const force = -maxMove * power;
+                        px += (dx / dist) * force;
+                        py += (dy / dist) * force;
+                    }
+                    
+                    points[r][c] = { x: px, y: py };
+                }
+            }
+            
+            // 1. Draw Subtle Highlight Glow under cursor
+            if (mouseX > -500) {
+                const glowRadius = 240;
+                const glowGradient = ctx.createRadialGradient(mouseX, mouseY, 0, mouseX, mouseY, glowRadius);
+                if (isDarkMode) {
+                    glowGradient.addColorStop(0, 'rgba(13, 148, 136, 0.04)'); // Refined teal glow
+                    glowGradient.addColorStop(1, 'transparent');
+                } else {
+                    glowGradient.addColorStop(0, 'rgba(255, 182, 141, 0.12)'); // Warm orange glow
+                    glowGradient.addColorStop(1, 'transparent');
+                }
+                ctx.fillStyle = glowGradient;
+                ctx.beginPath();
+                ctx.arc(mouseX, mouseY, glowRadius, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            // 2. Draw Grid Lines
+            ctx.strokeStyle = isDarkMode ? 'rgba(255, 255, 255, 0.035)' : 'rgba(0, 0, 0, 0.04)';
+            ctx.lineWidth = 1;
+            
+            // Draw horizontal lines
+            for (let r = 0; r <= rows; r++) {
+                ctx.beginPath();
+                ctx.moveTo(points[r][0].x, points[r][0].y);
+                for (let c = 1; c <= cols; c++) {
+                    ctx.lineTo(points[r][c].x, points[r][c].y);
+                }
+                ctx.stroke();
+            }
+            
+            // Draw vertical lines
+            for (let c = 0; c <= cols; c++) {
+                ctx.beginPath();
+                ctx.moveTo(points[0][c].x, points[0][c].y);
+                for (let r = 1; r <= rows; r++) {
+                    ctx.lineTo(points[r][c].x, points[r][c].y);
+                }
+                ctx.stroke();
+            }
+        }
+
+        // Draw Loop
+        function tick() {
+            drawGrid();
+            requestAnimationFrame(tick);
+        }
+        tick();
+    }
 });
