@@ -891,7 +891,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Wheel scroll listener
     function handleWheelScroll(e) {
-        if (isZeroBS || isTransitioning) return;
+        if (isZeroBS) return;
+        if (isTransitioning) {
+            e.preventDefault();
+            return;
+        }
 
         // Find current section element and its scroll boundaries
         const currentSectionId = sectionsArray[currentSectionIndex];
@@ -899,20 +903,18 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!sectionEl) return;
 
         const deltaY = e.deltaY;
-        
-        // Prevent default browser scrolling
-        e.preventDefault();
-
         const limits = checkScrollLimits(sectionEl);
 
         if (deltaY > 0) {
             // Scroll DOWN.
             if (limits.isAtBottom) {
+                e.preventDefault();
                 transitionToPage(currentSectionIndex + 1);
             }
         } else if (deltaY < 0) {
             // Scroll UP.
             if (limits.isAtTop) {
+                e.preventDefault();
                 transitionToPage(currentSectionIndex - 1);
             }
         }
