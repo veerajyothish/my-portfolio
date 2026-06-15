@@ -43,7 +43,7 @@
     
     <!-- Custom Cursor Follower -->
     <div id="cursor-follower" class="hidden md:block"></div>
-    <div id="cursor-dot" class="hidden md:block"></div>
+    <div id="cursor-dot" class="hidden md:block">+</div>
     
     <!-- Eyelid Page Transition Overlay -->
     <div id="eyelid-overlay">
@@ -75,6 +75,7 @@
         <div class="flex items-center gap-6">
             <div class="nav-links flex gap-4 md:gap-8 text-xs uppercase tracking-widest font-mono font-bold transition-colors duration-500" style="color: var(--nav-text);">
                 <a href="#about" class="nav-link hover:text-[#01696f] transition-colors">About</a>
+                <a href="#education" class="nav-link hover:text-[#01696f] transition-colors">Education</a>
                 <a href="#skills" class="nav-link hover:text-[#01696f] transition-colors">Skills</a>
                 <a href="#projects" class="nav-link hover:text-[#01696f] transition-colors">Projects</a>
                 <a href="#contact" class="nav-link hover:text-[#01696f] transition-colors">Contact</a>
@@ -83,10 +84,10 @@
     </nav>
 
     <!-- Main Content Flow -->
-    <main class="relative z-10 w-full max-w-6xl mx-auto pt-32 pb-24 px-6" id="workspace">
+    <main class="relative z-10 w-full max-w-6xl mx-auto px-6" id="workspace">
         
         <!-- Hero Section -->
-        <section id="hero" class="mb-16 md:mb-24 text-left fade-in">
+        <section id="hero" class="section-page text-left fade-in">
             <div class="status-badge inline-flex items-center gap-2 px-3 py-1 rounded-full border border-red-200 bg-red-50/80 shadow-sm text-[10px] uppercase font-mono tracking-wider text-stone-500 mb-6">
                 <span class="relative flex h-2.5 w-2.5">
                     <span class="ping-ring animate-ping absolute inline-flex h-full w-full rounded-full bg-red-600 opacity-75"></span>
@@ -106,14 +107,11 @@
             </p>
         </section>
 
-        <!-- Two Column Layout for About & Skills -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-16">
-            
-            <!-- Left Column: About & Education (7 cols) -->
-            <section id="about" class="lg:col-span-7 space-y-8">
+        <!-- Bio Section -->
+        <section id="about" class="section-page fade-in">
                 
                 <!-- About Card -->
-                <div class="card bg-white border border-stone-200 shadow-sm p-6 rounded-sm relative fade-in">
+                <div class="card bg-white border border-stone-200 shadow-sm p-6 rounded-sm relative w-full max-w-3xl mx-auto">
                     <div class="card-tape"></div>
                     <div class="flex justify-between items-center mb-4">
                         <span class="text-[11px] font-mono font-semibold text-stone-400 uppercase tracking-widest">Index / 01</span>
@@ -130,9 +128,12 @@
                         Currently interning as a Web Development & Designing Intern at <strong class="font-medium">Oasis InfoByte (OIBSIP)</strong>, building full-stack authentication systems with zero-vulnerability auth.
                     </p>
                 </div>
+        </section>
 
+        <!-- Education Section -->
+        <section id="education" class="section-page fade-in">
                 <!-- Education & Certifications Card -->
-                <div class="card bg-white border border-stone-200 shadow-sm p-6 rounded-sm relative fade-in">
+                <div class="card bg-white border border-stone-200 shadow-sm p-6 rounded-sm relative w-full max-w-3xl mx-auto">
                     <div class="card-tape"></div>
                     <div class="flex justify-between items-center mb-4">
                         <span class="text-[11px] font-mono font-semibold text-stone-400 uppercase tracking-widest">Metadata / 02</span>
@@ -180,18 +181,17 @@
                         </div>
                     </div>
                 </div>
+        </section>
 
-            </section>
-
-            <!-- Right Column: Skills (5 cols) -->
-            <section id="skills" class="lg:col-span-5">
-                <div class="card bg-white border border-stone-200 shadow-sm p-6 rounded-sm relative h-full flex flex-col fade-in">
-                    <div class="card-tape"></div>
-                    <div class="flex justify-between items-center mb-2">
-                        <span class="text-[11px] font-mono font-semibold text-stone-400 uppercase tracking-widest">Skills / 03</span>
-                        <span class="text-sm font-hand font-semibold text-stone-500 italic rotate-6">Stack</span>
-                    </div>
-                    <h2 class="section-heading text-3xl font-serif font-extrabold text-stone-900 mb-6 leading-[1.1]">Technical Skills</h2>
+        <!-- Skills Section -->
+        <section id="skills" class="section-page fade-in">
+            <div class="card bg-white border border-stone-200 shadow-sm p-6 rounded-sm relative w-full max-w-3xl mx-auto flex flex-col">
+                <div class="card-tape"></div>
+                <div class="flex justify-between items-center mb-2">
+                    <span class="text-[11px] font-mono font-semibold text-stone-400 uppercase tracking-widest">Skills / 03</span>
+                    <span class="text-sm font-hand font-semibold text-stone-500 italic rotate-6">Stack</span>
+                </div>
+                <h2 class="section-heading text-3xl font-serif font-extrabold text-stone-900 mb-6 leading-[1.1]">Technical Skills</h2>
                     
                     <!-- Languages -->
                     <div class="mb-5">
@@ -318,11 +318,10 @@
                         </div>
                     </div>
                 </div>
-            </section>
-        </div>
+        </section>
 
         <!-- Section: Projects (Grid Layout) -->
-        <section id="projects" class="mb-16 fade-in">
+        <section id="projects" class="section-page fade-in">
             <div class="flex justify-between items-center mb-8">
                 <div>
                     <h2 class="text-[10px] font-mono text-[#01696f] uppercase tracking-[0.2em] mb-1">Selected Works</h2>
@@ -431,8 +430,8 @@
         </section>
 
         <!-- Section: Interactive Terminal -->
-        <section id="terminal" class="mb-16 md:mb-24 fade-in">
-            <div class="card bg-stone-950 border border-stone-800 shadow-xl p-6 rounded-sm relative font-mono text-left" style="background-color: #0c0a09 !important; border-color: #292524 !important;">
+        <section id="terminal" class="section-page fade-in">
+            <div class="card bg-stone-950 border border-stone-800 shadow-xl p-6 rounded-sm relative font-mono text-left w-full max-w-4xl mx-auto" style="background-color: #0c0a09 !important; border-color: #292524 !important;">
                 <div class="card-tape"></div>
                 <!-- Terminal Title Bar -->
                 <div class="flex justify-between items-center border-b border-stone-800 pb-3 mb-4 select-none">
@@ -462,8 +461,8 @@
         </section>
 
         <!-- Section: Contact -->
-        <section id="contact" class="mb-8 fade-in">
-            <div class="card bg-white border border-stone-200 shadow-sm p-8 rounded-sm relative max-w-xl text-left">
+        <section id="contact" class="section-page fade-in">
+            <div class="card bg-white border border-stone-200 shadow-sm p-8 rounded-sm relative w-full max-w-xl mx-auto text-left mb-6">
                 <div class="card-tape"></div>
                 <h2 class="text-[10px] font-mono text-[#01696f] uppercase tracking-[0.2em] mb-2">Get in Touch</h2>
                 <h3 class="section-heading text-4xl font-serif font-bold text-stone-900 mb-4 leading-[1.1]">Let's Connect</h3>
@@ -486,23 +485,34 @@
                     <button type="submit">Send Message →</button>
                 </form>
             </div>
+
+            <!-- Footer directly inside the page, neat and centered -->
+            <footer class="w-full py-4 border-t border-stone-200/50 bg-transparent mt-auto relative z-10">
+                <div class="footer-inner max-w-xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-center">
+                    <div class="text-xs font-mono text-stone-400">
+                        © 2026 Bondada Veera Jyothish. Built with intent.
+                    </div>
+                    <div class="flex gap-4 text-[10px] font-mono">
+                        <a href="https://linkedin.com/in/veerajyothish" target="_blank" rel="noopener noreferrer" class="hover:text-[#01696f] underline transition-colors">LinkedIn</a>
+                        <a href="https://github.com/veerajyothish" target="_blank" rel="noopener noreferrer" class="hover:text-[#01696f] underline transition-colors">GitHub</a>
+                        <a href="mailto:jyothishbv@gmail.com" class="hover:text-[#01696f] underline transition-colors">Email</a>
+                    </div>
+                </div>
+            </footer>
         </section>
 
     </main>
 
-    <!-- Footer -->
-    <footer class="w-full py-12 border-t border-stone-200/50 bg-transparent relative z-10">
-        <div class="footer-inner max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-            <div class="text-sm font-mono text-stone-400">
-                © 2026 Bondada Veera Jyothish. Built with intent.
-            </div>
-            <div class="flex gap-6 text-xs font-mono">
-                <a href="https://linkedin.com/in/veerajyothish" target="_blank" rel="noopener noreferrer" class="hover:text-[#01696f] underline transition-colors">LinkedIn</a>
-                <a href="https://github.com/veerajyothish" target="_blank" rel="noopener noreferrer" class="hover:text-[#01696f] underline transition-colors">GitHub</a>
-                <a href="mailto:jyothishbv@gmail.com" class="hover:text-[#01696f] underline transition-colors">Email</a>
-            </div>
-        </div>
-    </footer>
+    <!-- Side Page Dot Navigator -->
+    <div id="dot-navigator" class="fixed right-6 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col gap-4">
+        <a href="#hero" class="dot-nav-item active" data-index="0" data-label="Home"></a>
+        <a href="#about" class="dot-nav-item" data-index="1" data-label="About"></a>
+        <a href="#education" class="dot-nav-item" data-index="2" data-label="Education"></a>
+        <a href="#skills" class="dot-nav-item" data-index="3" data-label="Skills"></a>
+        <a href="#projects" class="dot-nav-item" data-index="4" data-label="Projects"></a>
+        <a href="#terminal" class="dot-nav-item" data-index="5" data-label="Terminal"></a>
+        <a href="#contact" class="dot-nav-item" data-index="6" data-label="Contact"></a>
+    </div>
 
     <!-- Fixed Action Controls (Bottom Right) -->
     <div class="fixed bottom-6 right-6 z-50 flex flex-col gap-3">

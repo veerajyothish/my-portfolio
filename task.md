@@ -1,16 +1,22 @@
-# checklist for Premium Interactions & Zero BS Upgrades
+# Checklist for Fullscreen Pagination & Eyelid Transitions
 
-- [x] Define CSS rules in `index.css` for cursor follower, eyelid panels, docked header, and Zero BS Mode utility overrides
-- [x] Update `index.html` structure:
-    - Add typewriter logs container inside the loader
-    - Add cursor follower elements
-    - Add eyelid overlay panels
-    - Add the "Zero BS" toggle button next to the theme toggle
-- [x] Implement JavaScript handlers in `index.js`:
-    - OS Boot loader typewriter logging
-    - Retro text scramble on link hovers
-    - Cursor follower movement and morph logic
-    - Eyelid transition interception on nav clicks
-    - Scroll-docking header styles
-    - Zero BS toggle logic (shutting down canvas/tilts/sounds/follower)
-- [x] Verify execution in the browser and take screenshots/videos
+- [x] Modify layout in `index.html`:
+    - [x] Split About & Education into two distinct sibling sections (`#about` and `#education`)
+    - [x] Remove vertical padding classes from `<main id="workspace">`
+    - [x] Add `#dot-navigator` container with dots for all 7 sections
+    - [x] Add "Education" link in the header nav menu
+- [x] Add CSS definitions in `index.css`:
+    - [x] Style `.section-page` with `height: 100dvh`, flex centering, padding, and hidden scrollbars
+    - [x] Style `#dot-navigator` with responsive fixed sidebar positioning and hover tooltips
+    - [x] Lock default body overflow with `body:not(.zero-bs) { overflow: hidden; }`
+    - [x] Define `.zero-bs` utility class overrides to restore native auto scrolling and hide sidebar dots
+- [x] Implement pagination & navigation logic in `index.js`:
+    - [x] Manage index mapping: `['hero', 'about', 'education', 'skills', 'projects', 'terminal', 'contact']`
+    - [x] Intercept window `wheel` scrolls with delta detection, direction checks, internal height checks, and an active transition cooldown
+    - [x] Add swipe detection (`touchstart`/`touchend`) for mobile touch gestures
+    - [x] Add keyboard navigation (arrow keys, Space, PageUp/Down) for page transitions
+    - [x] Hook dot navigator clicks and active state highlighting
+    - [x] Integrate eyelid transition panels into the scroll, click, and swipe triggers
+    - [x] Toggle body locks, dots, and event listeners dynamically on Zero BS toggles
+- [x] Verify functionality via the browser subagent
+- [ ] Stage, commit, and push modifications to GitHub

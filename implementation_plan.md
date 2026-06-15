@@ -1,47 +1,86 @@
-# Revised Implementation Plan: Structured & Accessible Portfolio (No Flips)
+# Implementation Plan: Fullscreen Pagination with Eyelid Scroll Transitions
 
-We are revising the portfolio website layout to be clean, readable, and highly accessible, removing the draggable cards, Zero Bullshit Mode, and the click-flip interaction. All content will be directly visible.
-
-## Layout Changes
-
-### 1. Remove Zero Bullshit Mode & Click Flip
-- Remove Zero Bullshit Mode toggle button, hacker stylesheets, and alternative text views.
-- Remove card flip buttons, click-flip animation classes, and rotation styling.
-- All information (project descriptions, analytics, certifications) will be directly laid out on the page, visible and readable.
-
-### 2. Structured Layout
-- **Hero & About**: A clean intro section displaying your profile status, professional summary, and visual initials.
-- **Skills & Certifications**: An interactive SVG node graph side-by-side with a detailed list of Google Cloud and Tata Group certifications.
-- **Projects**: A clean responsive grid of cards for:
-  - GITAM Campus Navigator (displaying graph stats and time complexity directly).
-  - EduTracker (displaying Gemini Agent orchestration and Firebase sync details).
-  - OIBSIP Authenticator (displaying Flask security details).
-  - Each card will feature a clean border, drop shadow, and warm Stone-50 tones to maintain the tactile "quiet luxury" stationery look.
-- **Contact**: A clean contact container with email, location, GitHub, and LinkedIn details.
+We will convert the portfolio website into a fullscreen page-by-page slides system. Each section will fill exactly one screen (`100dvh`), and transitioning between sections via mouse wheel scrolling, mobile swipe gestures, keyboard arrow keys, or navigation clicks will trigger the premium eyelid closing and opening animation.
 
 ---
 
-## Proposed File Changes
+## User Review Required
 
-### 1. [index.html](file:///C:/Users/Jyoth/.gemini/antigravity/scratch/agyport/PORTFOLIO/index.html)
-- Lay out all content directly in semantic containers (no front/back divisions).
-- Arrange sections vertically: Header/Intro ➔ About ➔ Skills & Certs ➔ Projects ➔ Contact/Footer.
+> [!IMPORTANT]
+> **Page-by-Page Architectural Shift**:
+> Setting sections to `100dvh` requires disabling default browser scrollbars. Transitions are fully controlled via our JavaScript listeners.
+> To prevent content clipping on small devices (e.g. mobile or landscape viewports), sections with tall content (like Projects, Education, and Skills) will allow internal scrolling. Once the user reaches the very bottom or top of an overflowing section, the next scroll input will trigger the eyelid page transition.
 
-### 2. [index.css](file:///C:/Users/Jyoth/.gemini/antigravity/scratch/agyport/PORTFOLIO/index.css)
-- Clean up flip animation classes (`card-inner`, `card-front`, `card-back`, `flipped`).
-- Add clean styles for structured section grids, lists, and hover effects.
+> [!TIP]
+> **Zero BS Graceful Fallback**:
+> If the user clicks **NO BS**, the site disables the fullscreen locking, hides the pagination dots, and restores standard native browser scrolling. This ensures the site remains accessible and flat if desired.
 
-### 3. [index.js](file:///C:/Users/Jyoth/.gemini/antigravity/scratch/agyport/PORTFOLIO/index.js)
-- Remove all flipping logic and related flip sounds.
-- Keep the split entry loader.
-- Keep 3D card tilt hover effects.
-- Keep the interactive SVG Skills Graph physics loop.
-- Keep click sounds for standard buttons and link interactions.
+---
+
+## Proposed Changes
+
+### Layout & Structural Changes
+
+#### [MODIFY] [index.html](file:///c:/Users/Jyoth/.gemini/antigravity/scratch/my-portfolio/index.html)
+*   **Split About & Education**: Separate `<section id="about">` and Education & Credentials into two distinct siblings. Education will reside in its own `<section id="education">`.
+*   **Update Workspace Padding**: Modify the `<main id="workspace">` wrapper to remove vertical paddings (`pt-32 pb-24`), allowing sections to manage their own layout padding.
+*   **Add Side Dot Navigator**: Insert `<div id="dot-navigator">` containing navigation dots corresponding to each section page (Hero, Bio, Education, Skills, Projects, Terminal, Contact).
+*   **Add Navigation Links**: Add a link for "Education" to the header navigation.
+
+---
+
+### Styles & Design System
+
+#### [MODIFY] [index.css](file:///c:/Users/Jyoth/.gemini/antigravity/scratch/my-portfolio/index.css)
+*   **Section Viewport Locking**: Add `.section-page` class:
+    *   Set `height: 100dvh` and `min-height: 100dvh`.
+    *   Style as a flex column (`display: flex; flex-direction: column; justify-content: center;`).
+    *   Add vertical padding (`padding-top: 100px; padding-bottom: 40px;`) to clear the navigation bar.
+    *   Set `overflow-y: auto` with scrollbar hiding so overflow text is readable but doesn't show default browser track bars.
+*   **Body Lock Class**: Configure `body:not(.zero-bs) { overflow: hidden; }` to lock viewport scrollbar when interactive mode is active.
+*   **Side Dot Navigator Style**:
+    *   Position as `fixed; right: 2rem; top: 50%; transform: translateY(-50%); z-index: 45;`.
+    *   Style dots with transition scaling, highlighting the active page dot in teal (dark mode) or orange (light mode).
+    *   Add hover tooltips using `::after` content to display page names cleanly.
+
+---
+
+### Logic & Interactivity
+
+#### [MODIFY] [index.js](file:///c:/Users/Jyoth/.gemini/antigravity/scratch/my-portfolio/index.js)
+*   **Define Page Controller**:
+    *   Keep an array of section IDs: `['hero', 'about', 'education', 'skills', 'projects', 'terminal', 'contact']`.
+    *   Track `currentSectionIndex`.
+*   **Scroll Interception (`wheel`)**:
+    *   Listen to the `wheel` event on the window (with `{ passive: false }` to prevent default scroll).
+    *   If Zero BS Mode is active, bypass interception.
+    *   Check for transition cooldown (~800ms throttle).
+    *   Evaluate the active section's scroll state:
+        *   If scrolling down, check: `section.scrollTop + section.clientHeight >= section.scrollHeight - 5`. If true, trigger transition down. Else, let the section scroll internally.
+        *   If scrolling up, check: `section.scrollTop <= 5`. If true, trigger transition up. Else, let the section scroll internally.
+*   **Mobile Touch Swipe Interception**:
+    *   Detect swipe start (`touchstart`) and end (`touchend`).
+    *   Determine swipe direction and trigger the corresponding page transition (taking internal section scroll into account).
+*   **Keyboard Navigation Support**:
+    *   Listen to ArrowUp, ArrowDown, PageUp, PageDown, Space (down), and Shift+Space (up).
+    *   Trigger transitions based on keys.
+*   **Eyelid Transition Integration**:
+    *   Update both scroll events and nav-link clicks to execute the unified eyelid closure/scrolling transition.
+*   **Dot Navigator Listeners**:
+    *   Highlight the active dot based on `currentSectionIndex`.
+    *   Clicking a dot closes the eyelid, jumps to the target index, and opens.
+*   **Zero BS Toggle Integration**:
+    *   When Zero BS is enabled: Add `.zero-bs` class to `html`, restore `overflow: auto` to `body`, hide the dot navigator, and bypass scroll event listeners.
+    *   When Zero BS is disabled: Re-lock body scroll, show the dot navigator, and run transitions.
 
 ---
 
 ## Verification Plan
 
-- Preview the updated layout locally at `http://localhost:8080`.
-- Verify readability and accessibility across mobile and desktop.
-- Ensure skills graph physics and split loader work perfectly.
+### Manual Verification
+1.  **Loader Logs**: Verify the initial preloader finishes.
+2.  **Theme and Layout**: Ensure each section is centered and takes exactly the screen height.
+3.  **Scroll Transitions**: Test scrolling down/up triggers the eyelid transition.
+4.  **Internal Section Scroll**: Resize browser to a short height, verify tall elements (Projects/Education) can be scrolled internally, and only transition pages when reaching the boundary.
+5.  **Nav Clicks & Dot Clicks**: Verify clicking nav links or sidebar dots closes the eyelid and shifts the page.
+6.  **Zero BS Mode**: Enable NO BS and verify that standard linear scrolling is fully restored with scrollbars.

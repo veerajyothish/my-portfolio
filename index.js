@@ -272,6 +272,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const navLinks = document.querySelectorAll('.nav-link');
 
     function updateActiveNav() {
+        if (!isZeroBS) return;
         const scrollPos = window.scrollY + 120;
 
         sections.forEach(section => {
@@ -740,103 +741,305 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- 11. DYNAMIC CURSOR FOLLOWER ---
-    const cursorFollower = document.getElementById('cursor-follower');
+    // --- 11. DYNAMIC CURSOR POINTER ---
     const cursorDot = document.getElementById('cursor-dot');
     
-    if (cursorFollower && cursorDot) {
-        let followerX = 0;
-        let followerY = 0;
+    if (cursorDot) {
         let dotX = 0;
         let dotY = 0;
         
         window.addEventListener('mousemove', (e) => {
             if (isZeroBS) {
-                cursorFollower.style.opacity = '0';
                 cursorDot.style.opacity = '0';
                 return;
             }
             
-            const targetX = e.clientX;
-            const targetY = e.clientY;
-            
-            // Instantly move the inner dot
-            dotX = targetX;
-            dotY = targetY;
+            dotX = e.clientX;
+            dotY = e.clientY;
             cursorDot.style.left = `${dotX}px`;
             cursorDot.style.top = `${dotY}px`;
             cursorDot.style.opacity = '1';
-            
-            // Show follower
-            cursorFollower.style.opacity = '1';
         });
-
-        // Frame update loop for follower spring easing
-        function updateFollower() {
-            if (!isZeroBS && targetMouseX > -500) {
-                followerX += (targetMouseX - followerX) * 0.18;
-                followerY += (targetMouseY - followerY) * 0.18;
-                cursorFollower.style.left = `${followerX}px`;
-                cursorFollower.style.top = `${followerY}px`;
-            }
-            requestAnimationFrame(updateFollower);
-        }
-        updateFollower();
         
         window.addEventListener('mouseleave', () => {
-            cursorFollower.style.opacity = '0';
             cursorDot.style.opacity = '0';
         });
 
-        // Hover morph trigger: expand cursor on clickables
+        // Hover morph trigger: morph cursor on clickables
         const hoverables = document.querySelectorAll('a, button, .card, [role="button"], input, textarea');
         hoverables.forEach(item => {
             item.addEventListener('mouseenter', () => {
-                if (!isZeroBS) cursorFollower.classList.add('hover-active');
+                if (!isZeroBS) cursorDot.classList.add('hover-active');
             });
             item.addEventListener('mouseleave', () => {
-                cursorFollower.classList.remove('hover-active');
+                cursorDot.classList.remove('hover-active');
             });
             item.addEventListener('mousedown', () => {
-                if (!isZeroBS) cursorFollower.classList.add('click-active');
+                if (!isZeroBS) cursorDot.classList.add('click-active');
             });
             item.addEventListener('mouseup', () => {
-                cursorFollower.classList.remove('click-active');
+                cursorDot.classList.remove('click-active');
             });
         });
     }
 
-    // --- 12. EYELID PAGE TRANSITION OVERLAY ---
+    // --- 12. FULLSCREEN PAGINATION CONTROLLER ---
+    const sectionsArray = ['hero', 'about', 'education', 'skills', 'projects', 'terminal', 'contact'];
+    let currentSectionIndex = 0;
+    let isTransitioning = false;
     const eyelidOverlay = document.getElementById('eyelid-overlay');
-    
+    const dotNavigator = document.getElementById('dot-navigator');
+    const dotItems = document.querySelectorAll('.dot-nav-item');
+
+    // Update active nav dot and active header nav links
+    function updateActiveState(index) {
+        currentSectionIndex = index;
+        const activeSectionId = sectionsArray[index];
+
+        // 1. Highlight side dot navigator
+        dotItems.forEach((dot, idx) => {
+            if (idx === index) {
+                dot.classList.add('active');
+            } else {
+                dot.classList.remove('active');
+            }
+        });
+
+        // 2. Highlight header navigation links
+        navLinks.forEach(link => {
+            link.classList.remove('font-bold');
+            link.style.color = '';
+            if (link.getAttribute('href') === `#${activeSectionId}`) {
+                link.style.color = 'var(--accent-teal)';
+                link.classList.add('font-bold');
+            }
+        });
+
+        // 3. Update window hash silently
+        history.replaceState(null, null, `#${activeSectionId}`);
+    }
+
+    // Determine current page from hash on initial load
+    function initActivePageFromHash() {
+        const hash = window.location.hash.substring(1);
+        const index = sectionsArray.indexOf(hash);
+        if (index !== -1) {
+            currentSectionIndex = index;
+            setTimeout(() => {
+                const targetEl = document.getElementById(hash);
+                if (targetEl) {
+                    targetEl.scrollIntoView({ behavior: 'auto' });
+                }
+                updateActiveState(index);
+            }, 150);
+        } else {
+            updateActiveState(0);
+        }
+    }
+
+    // Page transition animation logic
+    function transitionToPage(index) {
+        if (index < 0 || index >= sectionsArray.length || isTransitioning) return;
+        isTransitioning = true;
+
+        playFeedbackSound();
+
+        // 1. Close eyelid panels
+        if (eyelidOverlay) eyelidOverlay.classList.add('active');
+
+        // 2. Perform section scroll when eyelid is fully closed
+        setTimeout(() => {
+            const targetId = sectionsArray[index];
+            const targetEl = document.getElementById(targetId);
+            if (targetEl) {
+                targetEl.scrollIntoView({ behavior: 'auto' });
+                // Reset internal scroll of target section back to top
+                targetEl.scrollTop = 0;
+            }
+            updateActiveState(index);
+
+            // 3. Reopen eyelid panels
+            setTimeout(() => {
+                if (eyelidOverlay) eyelidOverlay.classList.remove('active');
+                
+                // Transition Cooldown (800ms total from start)
+                setTimeout(() => {
+                    isTransitioning = false;
+                }, 350);
+            }, 150);
+        }, 300);
+    }
+
+    function checkScrollLimits(sectionEl) {
+        if (!sectionEl) return { isAtTop: true, isAtBottom: true };
+        
+        const scrollHeight = sectionEl.scrollHeight;
+        const clientHeight = sectionEl.clientHeight;
+        const scrollTop = sectionEl.scrollTop;
+        
+        // If the section doesn't have meaningful scrolling (fits within viewport),
+        // we treat it as being at both the top and the bottom.
+        if (scrollHeight - clientHeight <= 20) {
+            return { isAtTop: true, isAtBottom: true };
+        }
+        
+        const isAtTop = scrollTop <= 15;
+        const isAtBottom = scrollTop + clientHeight >= scrollHeight - 15;
+        
+        return { isAtTop, isAtBottom };
+    }
+
+    // Wheel scroll listener
+    function handleWheelScroll(e) {
+        if (isZeroBS || isTransitioning) return;
+
+        // Find current section element and its scroll boundaries
+        const currentSectionId = sectionsArray[currentSectionIndex];
+        const sectionEl = document.getElementById(currentSectionId);
+        if (!sectionEl) return;
+
+        const deltaY = e.deltaY;
+        
+        // Prevent default browser scrolling
+        e.preventDefault();
+
+        const limits = checkScrollLimits(sectionEl);
+
+        if (deltaY > 0) {
+            // Scroll DOWN.
+            if (limits.isAtBottom) {
+                transitionToPage(currentSectionIndex + 1);
+            }
+        } else if (deltaY < 0) {
+            // Scroll UP.
+            if (limits.isAtTop) {
+                transitionToPage(currentSectionIndex - 1);
+            }
+        }
+    }
+
+    window.addEventListener('wheel', handleWheelScroll, { passive: false });
+
+    // Keyboard navigation listener
+    function handleKeyDown(e) {
+        if (isZeroBS || isTransitioning) return;
+
+        // Skip keyboard shortcuts if user is typing in inputs or textarea
+        const activeEl = document.activeElement;
+        if (activeEl && (activeEl.tagName === 'INPUT' || activeEl.tagName === 'TEXTAREA')) {
+            return;
+        }
+
+        if (e.key === 'ArrowDown' || e.key === 'PageDown' || (e.key === ' ' && !e.shiftKey)) {
+            e.preventDefault();
+            const currentSectionId = sectionsArray[currentSectionIndex];
+            const sectionEl = document.getElementById(currentSectionId);
+            if (sectionEl) {
+                const limits = checkScrollLimits(sectionEl);
+                if (limits.isAtBottom) {
+                    transitionToPage(currentSectionIndex + 1);
+                } else {
+                    sectionEl.scrollBy({ top: 120, behavior: 'smooth' });
+                }
+            }
+        } else if (e.key === 'ArrowUp' || e.key === 'PageUp' || (e.key === ' ' && e.shiftKey)) {
+            e.preventDefault();
+            const currentSectionId = sectionsArray[currentSectionIndex];
+            const sectionEl = document.getElementById(currentSectionId);
+            if (sectionEl) {
+                const limits = checkScrollLimits(sectionEl);
+                if (limits.isAtTop) {
+                    transitionToPage(currentSectionIndex - 1);
+                } else {
+                    sectionEl.scrollBy({ top: -120, behavior: 'smooth' });
+                }
+            }
+        } else if (e.key === 'Home') {
+            e.preventDefault();
+            transitionToPage(0);
+        } else if (e.key === 'End') {
+            e.preventDefault();
+            transitionToPage(sectionsArray.length - 1);
+        }
+    }
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    // Mobile Touch swipe gesture handling
+    let touchStartY = 0;
+    let touchStartX = 0;
+
+    window.addEventListener('touchstart', (e) => {
+        if (isZeroBS || isTransitioning) return;
+        touchStartY = e.touches[0].clientY;
+        touchStartX = e.touches[0].clientX;
+    }, { passive: true });
+
+    window.addEventListener('touchend', (e) => {
+        if (isZeroBS || isTransitioning) return;
+        const touchEndY = e.changedTouches[0].clientY;
+        const touchEndX = e.changedTouches[0].clientX;
+
+        const diffY = touchStartY - touchEndY;
+        const diffX = touchStartX - touchEndX;
+
+        // Verify swipe was mostly vertical and past a threshold (50px)
+        if (Math.abs(diffY) > Math.abs(diffX) && Math.abs(diffY) > 50) {
+            const currentSectionId = sectionsArray[currentSectionIndex];
+            const sectionEl = document.getElementById(currentSectionId);
+            if (!sectionEl) return;
+
+            const limits = checkScrollLimits(sectionEl);
+
+            if (diffY > 0) {
+                // Swiped UP (User scrolling DOWN).
+                if (limits.isAtBottom) {
+                    transitionToPage(currentSectionIndex + 1);
+                }
+            } else {
+                // Swiped DOWN (User scrolling UP).
+                if (limits.isAtTop) {
+                    transitionToPage(currentSectionIndex - 1);
+                }
+            }
+        }
+    }, { passive: true });
+
     // Intercept nav links clicks
     navLinks.forEach(link => {
         link.addEventListener('click', (e) => {
-            const targetId = link.getAttribute('href');
-            if (targetId.startsWith('#')) {
+            const targetId = link.getAttribute('href').substring(1);
+            const index = sectionsArray.indexOf(targetId);
+            if (index !== -1) {
                 if (isZeroBS) return; // Fallback to normal anchor click
-                
                 e.preventDefault();
-                playFeedbackSound();
-                
-                // Close eyelid panels
-                if (eyelidOverlay) eyelidOverlay.classList.add('active');
-                
-                // Wait for panels to fully close (300ms)
-                setTimeout(() => {
-                    const targetEl = document.querySelector(targetId);
-                    if (targetEl) {
-                        targetEl.scrollIntoView({ behavior: 'auto' });
-                    }
-                    
-                    // Reopen eyelid panels
-                    setTimeout(() => {
-                        if (eyelidOverlay) eyelidOverlay.classList.remove('active');
-                    }, 150);
-                }, 300);
+                transitionToPage(index);
             }
         });
     });
+
+    const logoLink = document.querySelector('nav a[href="#hero"]');
+    if (logoLink) {
+        logoLink.addEventListener('click', (e) => {
+            if (isZeroBS) return;
+            e.preventDefault();
+            transitionToPage(0);
+        });
+    }
+
+    // Bind click events on dot items
+    dotItems.forEach(dot => {
+        dot.addEventListener('click', (e) => {
+            e.preventDefault();
+            const index = parseInt(dot.getAttribute('data-index'), 10);
+            if (!isNaN(index) && index !== currentSectionIndex) {
+                transitionToPage(index);
+            }
+        });
+    });
+
+    // Initialize layout positions
+    initActivePageFromHash();
 
     // --- 13. HEADER SCROLL DOCK ---
     const mainNav = document.getElementById('main-nav');
@@ -863,8 +1066,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 bsToggle.style.backgroundColor = 'var(--accent-teal)';
                 bsToggle.style.color = '#ffffff';
             }
-            if (cursorFollower) cursorFollower.style.opacity = '0';
             if (cursorDot) cursorDot.style.opacity = '0';
+            if (dotNavigator) dotNavigator.style.display = 'none';
         } else {
             document.documentElement.classList.remove('zero-bs');
             if (bsToggle) {
@@ -873,6 +1076,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 bsToggle.style.backgroundColor = '';
                 bsToggle.style.color = '';
             }
+            if (dotNavigator) dotNavigator.style.display = '';
+            
+            // Re-sync scroll position and active states
+            setTimeout(() => {
+                const targetId = sectionsArray[currentSectionIndex];
+                const targetEl = document.getElementById(targetId);
+                if (targetEl) {
+                    targetEl.scrollIntoView({ behavior: 'auto' });
+                }
+                updateActiveState(currentSectionIndex);
+            }, 150);
         }
     }
     applyZeroBS(isZeroBS);
