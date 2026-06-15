@@ -65,6 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- 1.2 SOUND MODE CYCLING CONTROLLER ---
     let soundMode = localStorage.getItem('portfolio-sound-mode') || 'click';
+    let isZeroBS = localStorage.getItem('portfolio-zero-bs') === 'true';
     const audioToggle = document.getElementById('audio-toggle');
 
     function updateAudioButtonUI() {
@@ -97,6 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function playFeedbackSound() {
+        if (isZeroBS) return;
         if (soundMode === 'click') {
             playClickSound();
         } else if (soundMode === 'chiptune') {
@@ -164,6 +166,26 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 200);
 
     let progress = 0;
+    const loaderLogs = document.getElementById('loader-logs');
+    const logsList = [
+        "BOOTING ANTIGRAVITY OS CORE...",
+        "MOUNTING REACTION INTERFACES...",
+        "SPINNING UP SYNTHESIZER PATHS...",
+        "STABILIZING ZERO-GRAVITY METRICS...",
+        "COMPILING SHIFT REGISTER STACK...",
+        "ANTIGRAVITY OS v1.2.0 ONLINE."
+    ];
+    let logIdx = 0;
+
+    function addLogLine(text) {
+        if (loaderLogs) {
+            const line = document.createElement('div');
+            line.textContent = `> ${text}`;
+            loaderLogs.appendChild(line);
+            loaderLogs.scrollTop = loaderLogs.scrollHeight;
+        }
+    }
+
     const progressInterval = setInterval(() => {
         progress += Math.floor(Math.random() * 15) + 5;
         if (progress >= 100) {
@@ -181,6 +203,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         if (loaderBar) loaderBar.style.width = `${progress}%`;
         if (loaderPercent) loaderPercent.textContent = `${progress}%`;
+
+        // Output log lines based on progress increments
+        const nextLogIdx = Math.floor((progress / 100) * logsList.length);
+        while (logIdx < nextLogIdx && logIdx < logsList.length) {
+            addLogLine(logsList[logIdx]);
+            logIdx++;
+        }
     }, 80);
 
 
@@ -445,13 +474,25 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                     break;
                 case 'antigravity':
-                    const isFlipped = document.body.classList.toggle('antigravity-active');
-                    playFeedbackSound();
-                    if (isFlipped) {
-                        out.innerHTML = `<div class="text-green-400 font-bold">WARNING: ZERO GRAVITY ENFORCED! Page components are floating.</div>`;
+                    if (isZeroBS) {
+                        out.innerHTML = `<div class="text-red-400 font-bold">Error: Cannot toggle gravity while Zero BS Mode is enabled.</div>`;
                     } else {
-                        out.innerHTML = `<div class="text-teal-300">Gravity fields restored. Cards stabilized.</div>`;
+                        const isFlipped = document.body.classList.toggle('antigravity-active');
+                        playFeedbackSound();
+                        if (isFlipped) {
+                            out.innerHTML = `<div class="text-green-400 font-bold">WARNING: ZERO GRAVITY ENFORCED! Page components are floating.</div>`;
+                        } else {
+                            out.innerHTML = `<div class="text-teal-300">Gravity fields restored. Cards stabilized.</div>`;
+                        }
                     }
+                    break;
+                case 'zerobs':
+                case 'bs':
+                    isZeroBS = !isZeroBS;
+                    localStorage.setItem('portfolio-zero-bs', isZeroBS);
+                    applyZeroBS(isZeroBS);
+                    playFeedbackSound();
+                    out.innerHTML = `<div>Zero BS Mode is now <span class="text-teal-300 font-bold">${isZeroBS ? 'ON' : 'OFF'}</span>.</div>`;
                     break;
                 case 'sudo':
                     out.innerHTML = `<div class="text-red-400 font-bold">Permission Denied: User is not in the sudoers file. This incident has been logged.</div>`;
@@ -534,15 +575,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- 9. INTERACTIVE CANVAS GRID REPULSION ---
     const canvas = document.getElementById('grid-canvas');
+    let mouseX = -1000;
+    let mouseY = -1000;
+    let targetMouseX = -1000;
+    let targetMouseY = -1000;
+
     if (canvas) {
         const ctx = canvas.getContext('2d');
         let width = canvas.width = window.innerWidth;
         let height = canvas.height = window.innerHeight;
-        
-        let mouseX = -1000;
-        let mouseY = -1000;
-        let targetMouseX = -1000;
-        let targetMouseY = -1000;
 
         // Track cursor coordinates
         window.addEventListener('mousemove', (e) => {
@@ -562,6 +603,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         function drawGrid() {
+            if (isZeroBS) {
+                ctx.clearRect(0, 0, width, height);
+                return;
+            }
             ctx.clearRect(0, 0, width, height);
             
             // Check if dark mode is active
@@ -659,5 +704,190 @@ document.addEventListener('DOMContentLoaded', () => {
             requestAnimationFrame(tick);
         }
         tick();
+    }
+
+    // --- 10. RETRO TEXT-SCRAMBLE HOVER EFFECT ---
+    const scrambleElements = document.querySelectorAll('.nav-link, nav a[href="#hero"]');
+    const scrambleCharset = "XYZ01_#@$-+[]{}<>=?*!%/\\";
+    
+    scrambleElements.forEach(elem => {
+        const originalText = elem.textContent.trim();
+        let isScrambling = false;
+        
+        elem.addEventListener('mouseenter', () => {
+            if (isScrambling || isZeroBS) return;
+            isScrambling = true;
+            let iterations = 0;
+            const interval = setInterval(() => {
+                elem.textContent = originalText
+                    .split('')
+                    .map((char, index) => {
+                        if (char === ' ' || char === '\n') return char;
+                        if (index < iterations) {
+                            return originalText[index];
+                        }
+                        return scrambleCharset[Math.floor(Math.random() * scrambleCharset.length)];
+                    })
+                    .join('');
+                
+                if (iterations >= originalText.length) {
+                    clearInterval(interval);
+                    elem.textContent = originalText;
+                    isScrambling = false;
+                }
+                iterations += 1 / 3;
+            }, 30);
+        });
+    });
+
+    // --- 11. DYNAMIC CURSOR FOLLOWER ---
+    const cursorFollower = document.getElementById('cursor-follower');
+    const cursorDot = document.getElementById('cursor-dot');
+    
+    if (cursorFollower && cursorDot) {
+        let followerX = 0;
+        let followerY = 0;
+        let dotX = 0;
+        let dotY = 0;
+        
+        window.addEventListener('mousemove', (e) => {
+            if (isZeroBS) {
+                cursorFollower.style.opacity = '0';
+                cursorDot.style.opacity = '0';
+                return;
+            }
+            
+            const targetX = e.clientX;
+            const targetY = e.clientY;
+            
+            // Instantly move the inner dot
+            dotX = targetX;
+            dotY = targetY;
+            cursorDot.style.left = `${dotX}px`;
+            cursorDot.style.top = `${dotY}px`;
+            cursorDot.style.opacity = '1';
+            
+            // Show follower
+            cursorFollower.style.opacity = '1';
+        });
+
+        // Frame update loop for follower spring easing
+        function updateFollower() {
+            if (!isZeroBS && targetMouseX > -500) {
+                followerX += (targetMouseX - followerX) * 0.18;
+                followerY += (targetMouseY - followerY) * 0.18;
+                cursorFollower.style.left = `${followerX}px`;
+                cursorFollower.style.top = `${followerY}px`;
+            }
+            requestAnimationFrame(updateFollower);
+        }
+        updateFollower();
+        
+        window.addEventListener('mouseleave', () => {
+            cursorFollower.style.opacity = '0';
+            cursorDot.style.opacity = '0';
+        });
+
+        // Hover morph trigger: expand cursor on clickables
+        const hoverables = document.querySelectorAll('a, button, .card, [role="button"], input, textarea');
+        hoverables.forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                if (!isZeroBS) cursorFollower.classList.add('hover-active');
+            });
+            item.addEventListener('mouseleave', () => {
+                cursorFollower.classList.remove('hover-active');
+            });
+            item.addEventListener('mousedown', () => {
+                if (!isZeroBS) cursorFollower.classList.add('click-active');
+            });
+            item.addEventListener('mouseup', () => {
+                cursorFollower.classList.remove('click-active');
+            });
+        });
+    }
+
+    // --- 12. EYELID PAGE TRANSITION OVERLAY ---
+    const eyelidOverlay = document.getElementById('eyelid-overlay');
+    
+    // Intercept nav links clicks
+    navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            const targetId = link.getAttribute('href');
+            if (targetId.startsWith('#')) {
+                if (isZeroBS) return; // Fallback to normal anchor click
+                
+                e.preventDefault();
+                playFeedbackSound();
+                
+                // Close eyelid panels
+                if (eyelidOverlay) eyelidOverlay.classList.add('active');
+                
+                // Wait for panels to fully close (300ms)
+                setTimeout(() => {
+                    const targetEl = document.querySelector(targetId);
+                    if (targetEl) {
+                        targetEl.scrollIntoView({ behavior: 'auto' });
+                    }
+                    
+                    // Reopen eyelid panels
+                    setTimeout(() => {
+                        if (eyelidOverlay) eyelidOverlay.classList.remove('active');
+                    }, 150);
+                }, 300);
+            }
+        });
+    });
+
+    // --- 13. HEADER SCROLL DOCK ---
+    const mainNav = document.getElementById('main-nav');
+    if (mainNav) {
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 40) {
+                mainNav.classList.add('scrolled');
+            } else {
+                mainNav.classList.remove('scrolled');
+            }
+        }, { passive: true });
+    }
+
+    // --- 14. ZERO BS MODE CONTROLLER ---
+    isZeroBS = localStorage.getItem('portfolio-zero-bs') === 'true';
+    const bsToggle = document.getElementById('bs-toggle');
+    
+    function applyZeroBS(active) {
+        if (active) {
+            document.documentElement.classList.add('zero-bs');
+            if (bsToggle) {
+                bsToggle.textContent = 'NO BS';
+                bsToggle.title = 'Switch to Interactive Mode';
+                bsToggle.style.backgroundColor = 'var(--accent-teal)';
+                bsToggle.style.color = '#ffffff';
+            }
+            if (cursorFollower) cursorFollower.style.opacity = '0';
+            if (cursorDot) cursorDot.style.opacity = '0';
+        } else {
+            document.documentElement.classList.remove('zero-bs');
+            if (bsToggle) {
+                bsToggle.textContent = 'BS';
+                bsToggle.title = 'Switch to Zero BS Mode (Flat Layout)';
+                bsToggle.style.backgroundColor = '';
+                bsToggle.style.color = '';
+            }
+        }
+    }
+    applyZeroBS(isZeroBS);
+
+    if (bsToggle) {
+        bsToggle.addEventListener('click', () => {
+            isZeroBS = !isZeroBS;
+            localStorage.setItem('portfolio-zero-bs', isZeroBS);
+            applyZeroBS(isZeroBS);
+            playFeedbackSound();
+            
+            // Clear floating cards if activating BS
+            if (isZeroBS) {
+                document.body.classList.remove('antigravity-active');
+            }
+        });
     }
 });

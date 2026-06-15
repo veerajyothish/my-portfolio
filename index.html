@@ -41,6 +41,16 @@
     <!-- Moving Interactive Grid Background Canvas -->
     <canvas id="grid-canvas" class="fixed inset-0 w-full h-full pointer-events-none z-0"></canvas>
     
+    <!-- Custom Cursor Follower -->
+    <div id="cursor-follower" class="hidden md:block"></div>
+    <div id="cursor-dot" class="hidden md:block"></div>
+    
+    <!-- Eyelid Page Transition Overlay -->
+    <div id="eyelid-overlay">
+        <div class="eyelid-panel-top"></div>
+        <div class="eyelid-panel-bottom"></div>
+    </div>
+    
     <!-- Split Panel Entry Loader -->
     <div id="loader" class="fixed inset-0 z-[9999] flex flex-col justify-between pointer-events-auto select-none">
         <div class="loader-panel loader-panel-top bg-[#1c1917] w-full h-[50vh] transition-transform duration-[800ms] ease-[cubic-bezier(0.76,0,0.24,1)]"></div>
@@ -51,6 +61,8 @@
                 <div id="loader-bar" class="w-0 h-full bg-[#fafaf9] transition-all duration-150"></div>
             </div>
             <div id="loader-percent" class="text-xs font-mono opacity-50">0%</div>
+            <!-- Typewriter boot logs -->
+            <div id="loader-logs" class="text-[9px] font-mono text-stone-500 max-w-[200px] text-left mt-4 h-16 overflow-hidden leading-tight select-none opacity-60"></div>
         </div>
     </div>
 
@@ -494,6 +506,10 @@
 
     <!-- Fixed Action Controls (Bottom Right) -->
     <div class="fixed bottom-6 right-6 z-50 flex flex-col gap-3">
+        <!-- Zero BS Mode Toggle -->
+        <button id="bs-toggle" class="w-10 h-10 flex items-center justify-center border border-stone-300 rounded-full bg-white/80 hover:bg-stone-50 transition-all text-[10px] font-mono font-bold shadow-sm" title="Toggle Zero BS Mode (Flat Layout / Off)" style="border-color: var(--border); background-color: var(--card-bg); color: var(--text-primary);">
+            BS
+        </button>
         <!-- Dark Mode Toggle -->
         <button id="theme-toggle" class="w-10 h-10 flex items-center justify-center border border-stone-300 rounded-full bg-white/80 hover:bg-stone-50 transition-all text-sm shadow-sm" title="Toggle Light/Dark Mode" style="border-color: var(--border); background-color: var(--card-bg); color: var(--text-primary);">
             🌙

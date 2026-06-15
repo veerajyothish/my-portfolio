@@ -512,3 +512,144 @@ html.dark .status-badge {
 .antigravity-active .card:nth-child(3n+2) { animation-delay: 1.2s; animation-duration: 7s; }
 .antigravity-active .card:nth-child(3n+3) { animation-delay: 0.6s; animation-duration: 5.5s; }
 
+/* ========================================
+   CURSOR FOLLOWER
+   ======================================== */
+#cursor-follower {
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    width: 20px;
+    height: 20px;
+    border: 1px solid var(--accent-teal);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.15s ease, height 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, opacity 0.3s ease;
+    opacity: 0;
+}
+
+#cursor-dot {
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    width: 4px;
+    height: 4px;
+    background-color: var(--accent-teal);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.3s ease;
+    opacity: 0;
+}
+
+/* Hover morph states */
+#cursor-follower.hover-active {
+    width: 32px;
+    height: 32px;
+    background-color: rgba(13, 148, 136, 0.05);
+    border-color: var(--accent-orange);
+}
+
+#cursor-follower.click-active {
+    width: 12px;
+    height: 12px;
+    background-color: rgba(13, 148, 136, 0.15);
+}
+
+/* ========================================
+   EYELID PAGE TRANSITION OVERLAY
+   ======================================== */
+#eyelid-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9998;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.eyelid-panel-top,
+.eyelid-panel-bottom {
+    width: 100%;
+    height: 0;
+    background-color: var(--surface);
+    border-color: var(--border);
+    transition: height 0.3s cubic-bezier(0.76, 0, 0.24, 1), border-width 0.15s ease;
+}
+
+.eyelid-panel-top {
+    border-bottom: 0px solid var(--accent-orange);
+}
+
+.eyelid-panel-bottom {
+    border-top: 0px solid var(--accent-orange);
+}
+
+#eyelid-overlay.active .eyelid-panel-top,
+#eyelid-overlay.active .eyelid-panel-bottom {
+    height: 50vh;
+    pointer-events: auto;
+}
+
+#eyelid-overlay.active .eyelid-panel-top {
+    border-bottom-width: 2px;
+}
+
+#eyelid-overlay.active .eyelid-panel-bottom {
+    border-top-width: 2px;
+}
+
+/* ========================================
+   SCROLLED HEADER DOCK
+   ======================================== */
+#main-nav {
+    transition: background-color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease, padding 0.4s ease;
+}
+
+#main-nav.scrolled {
+    background-color: var(--nav-bg) !important;
+    border-color: var(--nav-border) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+/* ========================================
+   ZERO BS MODE OVERRIDES
+   ======================================== */
+.zero-bs body {
+    background-image: none !important;
+}
+
+.zero-bs .card {
+    transform: none !important;
+    box-shadow: none !important;
+    border-color: var(--border) !important;
+    transition: none !important;
+}
+
+.zero-bs .card:hover {
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+.zero-bs .card-tape {
+    display: none !important;
+}
+
+.zero-bs #cursor-follower,
+.zero-bs #cursor-dot {
+    display: none !important;
+}
+
+.zero-bs .fade-in {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+}
+
+.zero-bs #grid-canvas {
+    display: none !important;
+}
+
+
